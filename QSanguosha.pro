@@ -2,16 +2,15 @@
 # Project created by QtCreator 2010-06-13T04:26:52
 # -------------------------------------------------
 TARGET = QSanguosha
-QT += network widgets
+QT += core gui network widgets qml quick quickwidgets
 TEMPLATE = app
-CONFIG += audio
 win32: QT += winextras
 
-CONFIG += c++11
+CONFIG += c++11  # lua
 
+SOURCES += src/main.cpp
 
-CONFIG += lua
-
+CONFIG(origprogram){
 SOURCES += \
     swig/sanguosha_wrap.cxx \
     src/client/aux-skills.cpp \
@@ -232,6 +231,7 @@ FORMS += \
     src/dialog/connectiondialog.ui \
     src/dialog/generaloverview.ui \
     src/dialog/mainwindow.ui
+}
 
 INCLUDEPATH += include
 INCLUDEPATH += src/client
@@ -242,13 +242,12 @@ INCLUDEPATH += src/scenario
 INCLUDEPATH += src/server
 INCLUDEPATH += src/ui
 INCLUDEPATH += src/util
-INCLUDEPATH += src/jsoncpp/include
 
 win32{
     RC_FILE += resource/icon.rc
 }
 
-macx{
+osx{
     ICON = resource/icon/sgs.icns
 }
 
@@ -392,6 +391,10 @@ android:DEFINES += "\"getlocaledecpoint()='.'\""
     INCLUDEPATH += src/lua
 }
 
+DISTFILES += \
+    qml/Dialog/MainWindow.qml \
+    qml/Dialog/ConfigDialog.qml
+
 
 !build_pass{
     system("lrelease $$_PRO_FILE_PWD_/builds/sanguosha.ts -qm $$_PRO_FILE_PWD_/sanguosha.qm")
@@ -403,11 +406,5 @@ android:DEFINES += "\"getlocaledecpoint()='.'\""
 }
 
 TRANSLATIONS += builds/sanguosha.ts
-
-CONFIG(debug, debug|release): LIBS += -lfreetype_D
-else:LIBS += -lfreetype
-
-INCLUDEPATH += $$_PRO_FILE_PWD_/include/freetype
-DEPENDPATH += $$_PRO_FILE_PWD_/include/freetype
 
 ANDROID_PACKAGE_SOURCE_DIR = $$_PRO_FILE_PWD_/resource/android
