@@ -1,7 +1,7 @@
 # -------------------------------------------------
 # Project created by QtCreator 2010-06-13T04:26:52
 # -------------------------------------------------
-TARGET = QSanguosha
+TARGET = TouhouSatsu
 QT += core gui network widgets qml quick quickwidgets
 TEMPLATE = app
 win32: QT += winextras
