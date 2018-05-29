@@ -8,7 +8,7 @@ win32: QT += winextras
 
 CONFIG += c++11  # lua
 
-SOURCES += src/main.cpp
+SOURCES += src/main.cpp #src
 
 CONFIG(origprogram){
 SOURCES += \
@@ -393,7 +393,8 @@ android:DEFINES += "\"getlocaledecpoint()='.'\""
 
 DISTFILES += \
     qml/Dialog/MainWindow.qml \
-    qml/Dialog/ConfigDialog.qml
+    qml/Dialog/ConfigDialog.qml \
+    qml/Ui/StartScene.qml
 
 
 !build_pass{
