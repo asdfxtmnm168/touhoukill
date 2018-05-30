@@ -392,9 +392,10 @@ android:DEFINES += "\"getlocaledecpoint()='.'\""
 }
 
 DISTFILES += \
-    qml/Dialog/MainWindow.qml \
-    qml/Dialog/ConfigDialog.qml \
-    qml/Ui/StartScene.qml
+    qml/MainWindow.qml \
+    qml/ConfigDialog.qml \
+    qml/StartScene.qml \
+    qml/QSanButton.qml
 
 
 !build_pass{
