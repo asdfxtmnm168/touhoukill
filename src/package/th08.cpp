@@ -710,7 +710,7 @@ public:
         events << CardUsed << CardResponded << EventPhaseChanging;
     }
 
-    void record(TriggerEvent e, Room *room, QVariant &data) const
+    void record(TriggerEvent e, Room *, QVariant &data) const
     {
         //record times of using card
         if (e == CardUsed || e == CardResponded) {
@@ -1735,7 +1735,7 @@ public:
         return QList<SkillInvokeDetail>();
     }
 
-    bool cost(TriggerEvent triggerEvent, Room *room, QSharedPointer<SkillInvokeDetail> invoke, QVariant &) const
+    bool cost(TriggerEvent, Room *room, QSharedPointer<SkillInvokeDetail> invoke, QVariant &) const
     {
         return use_chuangshi(room, invoke->invoker);
     }
