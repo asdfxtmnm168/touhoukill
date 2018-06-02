@@ -1,7 +1,6 @@
 #include "util.h"
 #include "lua.hpp"
 
-#include <QMessageBox>
 #include <QStringList>
 #include <QVariant>
 
@@ -75,7 +74,7 @@ void DoLuaScript(lua_State *L, const char *script)
     int error = luaL_dofile(L, script);
     if (error) {
         QString error_msg = lua_tostring(L, -1);
-        QMessageBox::critical(NULL, QObject::tr("Lua script error"), error_msg);
+        qDebug("Lua script error: %s", error_msg);
         exit(1);
     }
 }

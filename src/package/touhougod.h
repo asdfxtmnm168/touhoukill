@@ -5,12 +5,12 @@
 #include "package.h"
 #include "skill.h"
 
-#include <QAbstractButton>
-#include <QButtonGroup>
-#include <QDialog>
-#include <QGroupBox>
-#include <QHBoxLayout>
-#include <QVBoxLayout>
+//#include <QAbstractButton>
+//#include <QButtonGroup>
+//#include <QDialog>
+//#include <QGroupBox>
+//#include <QHBoxLayout>
+//#include <QVBoxLayout>
 
 class HongwuCard : public SkillCard
 {
@@ -139,30 +139,28 @@ public:
     virtual void use(Room *room, ServerPlayer *source, QList<ServerPlayer *> &targets) const;
 };
 
-class AnyunDialog : public QDialog
-{
-    Q_OBJECT
+//class AnyunDialog : public QDialog
+//{
+//    Q_OBJECT
 
-public:
-    static AnyunDialog *getInstance(const QString &object);
+//public:
+//    static AnyunDialog *getInstance(const QString &object);
 
-public slots:
-    void popup();
-    void selectSkill(QAbstractButton *button);
+//public slots:
+//    void popup();
+//    void selectSkill(QAbstractButton *button);
 
-private:
-    explicit AnyunDialog(const QString &object);
+//private:
+//    explicit AnyunDialog(const QString &object);
 
-    QVBoxLayout *layout;
-    QButtonGroup *group;
+//    QVBoxLayout *layout;
+//    QButtonGroup *group;
 
-    QString object_name;
+//    QString object_name;
 
-signals:
-    void onButtonClick();
-};
-
-
+//signals:
+//    void onButtonClick();
+//};
 
 class TouhouGodPackage : public Package
 {

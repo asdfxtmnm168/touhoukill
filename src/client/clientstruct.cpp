@@ -5,11 +5,6 @@
 
 ServerInfoStruct ServerInfo;
 
-#include <QCheckBox>
-#include <QFormLayout>
-#include <QLabel>
-#include <QListWidget>
-
 time_t ServerInfoStruct::getCommandTimeout(QSanProtocol::CommandType command, QSanProtocol::ProcessInstanceType instance, int operationRate)
 {
     time_t timeOut;
@@ -96,6 +91,13 @@ bool ServerInfoStruct::parse(const QString &str)
 
     return true;
 }
+
+#if 0
+
+#include <QCheckBox>
+#include <QFormLayout>
+#include <QLabel>
+#include <QListWidget>
 
 ServerInfoWidget::ServerInfoWidget(bool show_lack)
 {
@@ -224,3 +226,5 @@ void ServerInfoWidget::clear()
     time_limit_label->clear();
     list_widget->clear();
 }
+
+#endif

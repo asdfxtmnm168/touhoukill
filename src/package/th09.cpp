@@ -7,8 +7,6 @@
 #include "skill.h"
 #include "standard.h"
 
-#include <QCommandLinkButton>
-
 class ZuiyueVS : public ZeroCardViewAsSkill
 {
 public:
@@ -1294,81 +1292,81 @@ public:
     }
 };
 
-NianliDialog *NianliDialog::getInstance(const QString &object)
-{
-    static NianliDialog *instance;
-    if (instance == NULL || instance->objectName() != object) {
-        instance = new NianliDialog(object);
-    }
-    return instance;
-}
+//NianliDialog *NianliDialog::getInstance(const QString &object)
+//{
+//    static NianliDialog *instance;
+//    if (instance == NULL || instance->objectName() != object) {
+//        instance = new NianliDialog(object);
+//    }
+//    return instance;
+//}
 
-NianliDialog::NianliDialog(const QString &object)
-    : object_name(object)
-{
-    setObjectName(object);
-    setWindowTitle(Sanguosha->translate(object));
-    group = new QButtonGroup(this);
+//NianliDialog::NianliDialog(const QString &object)
+//    : object_name(object)
+//{
+//    setObjectName(object);
+//    setWindowTitle(Sanguosha->translate(object));
+//    group = new QButtonGroup(this);
 
-    layout = new QVBoxLayout;
-    setLayout(layout);
+//    layout = new QVBoxLayout;
+//    setLayout(layout);
 
-    connect(group, SIGNAL(buttonClicked(QAbstractButton *)), this, SLOT(selectCard(QAbstractButton *)));
-}
+//    connect(group, SIGNAL(buttonClicked(QAbstractButton *)), this, SLOT(selectCard(QAbstractButton *)));
+//}
 
-void NianliDialog::popup()
-{
-    if (Sanguosha->currentRoomState()->getCurrentCardUseReason() != CardUseStruct::CARD_USE_REASON_PLAY) {
-        emit onButtonClick();
-        return;
-    }
+//void NianliDialog::popup()
+//{
+//    if (Sanguosha->currentRoomState()->getCurrentCardUseReason() != CardUseStruct::CARD_USE_REASON_PLAY) {
+//        emit onButtonClick();
+//        return;
+//    }
 
-    foreach (QAbstractButton *button, group->buttons()) {
-        layout->removeWidget(button);
-        group->removeButton(button);
-        delete button;
-    }
+//    foreach (QAbstractButton *button, group->buttons()) {
+//        layout->removeWidget(button);
+//        group->removeButton(button);
+//        delete button;
+//    }
 
-    QStringList card_names;
-    card_names << "slash"
-               << "snatch";
+//    QStringList card_names;
+//    card_names << "slash"
+//               << "snatch";
 
-    foreach (QString card_name, card_names) {
-        QCommandLinkButton *button = new QCommandLinkButton;
-        button->setText(Sanguosha->translate(card_name));
-        button->setObjectName(card_name);
-        group->addButton(button);
+//    foreach (QString card_name, card_names) {
+//        QCommandLinkButton *button = new QCommandLinkButton;
+//        button->setText(Sanguosha->translate(card_name));
+//        button->setObjectName(card_name);
+//        group->addButton(button);
 
-        bool can = true;
-        Card *c = Sanguosha->cloneCard(card_name);
-        c->setSkillName("nianli");
-        if (Self->isCardLimited(c, Card::MethodUse) || !c->isAvailable(Self))
-            can = false;
+//        bool can = true;
+//        Card *c = Sanguosha->cloneCard(card_name);
+//        c->setSkillName("nianli");
+//        if (Self->isCardLimited(c, Card::MethodUse) || !c->isAvailable(Self))
+//            can = false;
 
-        button->setEnabled(can);
-        button->setToolTip(c->getDescription());
-        layout->addWidget(button);
-        delete c;
+//        button->setEnabled(can);
+//        button->setToolTip(c->getDescription());
+//        layout->addWidget(button);
+//        delete c;
 
-        /*if (!map.contains(card_name)) {
-            Card *c = Sanguosha->cloneCard(card_name);
-            c->setParent(this);
-            map.insert(card_name, c);
-        }*/
-    }
+//        /*if (!map.contains(card_name)) {
+//            Card *c = Sanguosha->cloneCard(card_name);
+//            c->setParent(this);
+//            map.insert(card_name, c);
+//        }*/
+//    }
 
-    Self->tag.remove(object_name);
-    exec();
-}
+//    Self->tag.remove(object_name);
+//    exec();
+//}
 
-void NianliDialog::selectCard(QAbstractButton *button)
-{
-    //const Card *card = map.value(button->objectName());
-    Self->tag[object_name] = QVariant::fromValue(button->objectName());
+//void NianliDialog::selectCard(QAbstractButton *button)
+//{
+//    //const Card *card = map.value(button->objectName());
+//    Self->tag[object_name] = QVariant::fromValue(button->objectName());
 
-    emit onButtonClick();
-    accept();
-}
+//    emit onButtonClick();
+//    accept();
+//}
 
 NianliCard::NianliCard()
 {
@@ -1456,10 +1454,10 @@ public:
         view_as_skill = new NianliVS;
     }
 
-    virtual QDialog *getDialog() const
-    {
-        return NianliDialog::getInstance("nianli");
-    }
+    //    virtual QDialog *getDialog() const
+    //    {
+    //        return NianliDialog::getInstance("nianli");
+    //    }
 
     void record(TriggerEvent triggerEvent, Room *room, QVariant &data) const
     {

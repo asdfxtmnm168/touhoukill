@@ -1,12 +1,10 @@
 #ifndef _CLIENT_STRUCT_H
 #define _CLIENT_STRUCT_H
 
-#include "QSanSelectableItem.h"
 #include "player.h"
 #include "protocol.h"
 
 #include <QMap>
-#include <QWidget>
 
 struct ServerInfoStruct
 {
@@ -37,8 +35,11 @@ struct ServerInfoStruct
 
 extern ServerInfoStruct ServerInfo;
 
+#if 0
+
 class QLabel;
 class QListWidget;
+#include <QWidget>
 
 class ServerInfoWidget : public QWidget
 {
@@ -67,4 +68,7 @@ private:
     QLabel *lack_label;
     QListWidget *list_widget;
 };
+
+#endif
+
 #endif

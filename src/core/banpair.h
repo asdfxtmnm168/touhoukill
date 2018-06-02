@@ -1,9 +1,8 @@
 #ifndef _BAN_PAIR_H
 #define _BAN_PAIR_H
 
-#include <QDialog>
-#include <QListWidget>
 #include <QPair>
+#include <QString>
 
 struct BanPair : public QPair<QString, QString>
 {

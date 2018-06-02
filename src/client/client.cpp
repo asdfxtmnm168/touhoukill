@@ -1,22 +1,23 @@
 #include "client.h"
-#include "SkinBank.h"
-#include "choosegeneraldialog.h"
 #include "engine.h"
 #include "nativesocket.h"
 #include "recorder.h"
 #include "settings.h"
 #include "standard.h"
 
+#include <QTextCursor>
+#include <QTextDocument>
+#include <QTimer>
+
+#if 0
 #include <QApplication>
 #include <QCheckBox>
 #include <QCommandLinkButton>
 #include <QLabel>
 #include <QLineEdit>
 #include <QMessageBox>
-#include <QTextCursor>
-#include <QTextDocument>
-#include <QTimer>
 #include <QVBoxLayout>
+#endif
 
 using namespace std;
 using namespace QSanProtocol;
@@ -367,7 +368,7 @@ void Client::setup(const QVariant &setup_json)
         emit server_connected();
         notifyServer(S_COMMAND_TOGGLE_READY);
     } else {
-        QMessageBox::warning(NULL, tr("Warning"), tr("Setup string can not be parsed: %1").arg(setup_str));
+        //  QMessageBox::warning(NULL, tr("Warning"), tr("Setup string can not be parsed: %1").arg(setup_str));
     }
 }
 
@@ -958,8 +959,8 @@ QString Client::setPromptList(const QStringList &texts)
 
 void Client::commandFormatWarning(const QString &str, const QRegExp &rx, const char *command)
 {
-    QString text = tr("The argument (%1) of command %2 does not conform the format %3").arg(str).arg(command).arg(rx.pattern());
-    QMessageBox::warning(NULL, tr("Command format warning"), text);
+    //    QString text = tr("The argument (%1) of command %2 does not conform the format %3").arg(str).arg(command).arg(rx.pattern());
+    //    QMessageBox::warning(NULL, tr("Command format warning"), text);
 }
 
 QString Client::_processCardPattern(const QString &pattern)
@@ -1504,7 +1505,7 @@ void Client::warn(const QVariant &reason_var)
         msg = tr("Unknown warning: %1").arg(reason);
 
     disconnectFromHost();
-    QMessageBox::warning(NULL, tr("Warning"), msg);
+    //QMessageBox::warning(NULL, tr("Warning"), msg);
 }
 
 void Client::askForGeneral(const QVariant &arg)
@@ -1796,8 +1797,8 @@ QList<const ClientPlayer *> Client::getPlayers() const
 
 void Client::alertFocus()
 {
-    if (Self->getPhase() == Player::Play)
-        QApplication::alert(QApplication::focusWidget());
+    //    if (Self->getPhase() == Player::Play)
+    //        QApplication::alert(QApplication::focusWidget());
 }
 
 void Client::showCard(const QVariant &show_str)
@@ -2224,6 +2225,7 @@ void Client::revealGeneral(const QVariant &reveal)
 
 void Client::onPlayerChooseOrder()
 {
+#if 0
     OptionButton *button = qobject_cast<OptionButton *>(sender());
     QString order;
     if (button) {
@@ -2234,6 +2236,8 @@ void Client::onPlayerChooseOrder()
         else
             order = "cool";
     }
+#endif
+    QString order = "warm";
     int req;
     if (order == "warm")
         req = (int)S_CAMP_WARM;

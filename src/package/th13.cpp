@@ -454,10 +454,10 @@ public:
             return NULL;
     }
 
-    virtual QDialog *getDialog() const
-    {
-        return QijiDialog::getInstance("xihua");
-    }
+    //    virtual QDialog *getDialog() const
+    //    {
+    //        return QijiDialog::getInstance("xihua");
+    //    }
 
     virtual bool isEnabledAtNullification(const ServerPlayer *player) const
     {

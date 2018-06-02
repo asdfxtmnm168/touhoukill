@@ -1,7 +1,6 @@
 #include "miniscenarios.h"
 
 #include <QFile>
-#include <QMessageBox>
 
 const char *MiniScene::S_KEY_MINISCENE = "_mini_%1";
 const char *MiniSceneRule::S_EXTRA_OPTION_RANDOM_ROLES = "randomRoles";

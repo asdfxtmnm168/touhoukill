@@ -2,21 +2,16 @@
 # Project created by QtCreator 2010-06-13T04:26:52
 # -------------------------------------------------
 TARGET = TouhouSatsu
-QT += core gui network widgets qml quick quickwidgets
+QT += core gui network qml quick #quickwidgets
+QT -= widgets
 TEMPLATE = app
 win32: QT += winextras
 
-CONFIG += c++11  # lua
+CONFIG += c++11 lua
 
 SOURCES += src/main.cpp #src
 
-CONFIG(origprogram){
 SOURCES += \
-    swig/sanguosha_wrap.cxx \
-    src/client/aux-skills.cpp \
-    src/client/client.cpp \
-    src/client/clientplayer.cpp \
-    src/client/clientstruct.cpp \
     src/core/banpair.cpp \
     src/core/card.cpp \
     src/core/engine.cpp \
@@ -32,17 +27,11 @@ SOURCES += \
     src/core/structs.cpp \
     src/core/util.cpp \
     src/core/WrappedCard.cpp \
-    src/dialog/AboutUs.cpp \
-    src/dialog/cardoverview.cpp \
-    src/dialog/choosegeneraldialog.cpp \
-    src/dialog/configdialog.cpp \
-    src/dialog/connectiondialog.cpp \
-    src/dialog/customassigndialog.cpp \
-    src/dialog/distanceviewdialog.cpp \
-    src/dialog/generaloverview.cpp \
-    src/dialog/mainwindow.cpp \
-    src/dialog/playercarddialog.cpp \
-    src/dialog/roleassigndialog.cpp \
+    swig/sanguosha_wrap.cxx \
+    src/client/aux-skills.cpp \
+    src/client/client.cpp \
+    src/client/clientplayer.cpp \
+    src/client/clientstruct.cpp \
     src/package/exppattern.cpp \
     src/package/maneuvering.cpp \
     src/package/package.cpp \
@@ -76,53 +65,13 @@ SOURCES += \
     src/server/roomthreadxmode.cpp \
     src/server/server.cpp \
     src/server/serverplayer.cpp \
-    src/ui/bubblechatbox.cpp \
-    src/ui/button.cpp \
-    src/ui/cardcontainer.cpp \
-    src/ui/carditem.cpp \
-    src/ui/chatwidget.cpp \
-    src/ui/clientlogbox.cpp \
-    src/ui/dashboard.cpp \
-    src/ui/GenericCardContainerUI.cpp \
-    src/ui/graphicspixmaphoveritem.cpp \
-    src/ui/heroskincontainer.cpp \
-    src/ui/indicatoritem.cpp \
-    src/ui/magatamasItem.cpp \
-    src/ui/photo.cpp \
-    src/ui/pixmapanimation.cpp \
-    src/ui/qsanbutton.cpp \
-    src/ui/QSanSelectableItem.cpp \
-    src/ui/rolecombobox.cpp \
-    src/ui/roomscene.cpp \
-    src/ui/sanfreetypefont.cpp \
-    src/ui/sanshadowtextfont.cpp \
-    src/ui/sansimpletextfont.cpp \
-    src/ui/sanuiutils.cpp \
-    src/ui/SkinBank.cpp \
-    src/ui/skinitem.cpp \
-    src/ui/sprite.cpp \
-    src/ui/startscene.cpp \
-    src/ui/TablePile.cpp \
-    src/ui/TimedProgressBar.cpp \
-    src/ui/uiUtils.cpp \
-    src/ui/window.cpp \
     src/util/detector.cpp \
     src/util/nativesocket.cpp \
     src/util/recorder.cpp \
-    src/main.cpp \
-    src/ui/choosetriggerorderbox.cpp \
-    src/ui/graphicsbox.cpp \
-    src/ui/lightboxanimation.cpp \
-    src/ui/chooseoptionsbox.cpp \
     src/package/testCard.cpp \
     src/package/th16.cpp
 
 HEADERS += \
-    src/client/aux-skills.h \
-    src/client/client.h \
-    src/client/clientplayer.h \
-    src/client/clientstruct.h \
-    src/core/audio.h \
     src/core/banpair.h \
     src/core/card.h \
     src/core/compiler-specific.h \
@@ -139,17 +88,10 @@ HEADERS += \
     src/core/structs.h \
     src/core/util.h \
     src/core/WrappedCard.h \
-    src/dialog/AboutUs.h \
-    src/dialog/cardoverview.h \
-    src/dialog/choosegeneraldialog.h \
-    src/dialog/configdialog.h \
-    src/dialog/connectiondialog.h \
-    src/dialog/customassigndialog.h \
-    src/dialog/distanceviewdialog.h \
-    src/dialog/generaloverview.h \
-    src/dialog/mainwindow.h \
-    src/dialog/playercarddialog.h \
-    src/dialog/roleassigndialog.h \
+    src/client/aux-skills.h \
+    src/client/client.h \
+    src/client/clientplayer.h \
+    src/client/clientstruct.h \
     src/package/exppattern.h \
     src/package/maneuvering.h \
     src/package/package.h \
@@ -183,6 +125,73 @@ HEADERS += \
     src/server/roomthreadxmode.h \
     src/server/server.h \
     src/server/serverplayer.h \
+    src/util/detector.h \
+    src/util/nativesocket.h \
+    src/util/recorder.h \
+    src/util/socket.h \
+    src/package/testCard.h \
+    src/package/th16.h
+
+CONFIG(origprogram){
+SOURCES += \
+    src/dialog/AboutUs.cpp \
+    src/dialog/cardoverview.cpp \
+    src/dialog/choosegeneraldialog.cpp \
+    src/dialog/configdialog.cpp \
+    src/dialog/connectiondialog.cpp \
+    src/dialog/customassigndialog.cpp \
+    src/dialog/distanceviewdialog.cpp \
+    src/dialog/generaloverview.cpp \
+    src/dialog/mainwindow.cpp \
+    src/dialog/playercarddialog.cpp \
+    src/dialog/roleassigndialog.cpp \
+    src/ui/bubblechatbox.cpp \
+    src/ui/button.cpp \
+    src/ui/cardcontainer.cpp \
+    src/ui/carditem.cpp \
+    src/ui/chatwidget.cpp \
+    src/ui/clientlogbox.cpp \
+    src/ui/dashboard.cpp \
+    src/ui/GenericCardContainerUI.cpp \
+    src/ui/graphicspixmaphoveritem.cpp \
+    src/ui/heroskincontainer.cpp \
+    src/ui/indicatoritem.cpp \
+    src/ui/magatamasItem.cpp \
+    src/ui/photo.cpp \
+    src/ui/pixmapanimation.cpp \
+    src/ui/qsanbutton.cpp \
+    src/ui/QSanSelectableItem.cpp \
+    src/ui/rolecombobox.cpp \
+    src/ui/roomscene.cpp \
+    src/ui/sanfreetypefont.cpp \
+    src/ui/sanshadowtextfont.cpp \
+    src/ui/sansimpletextfont.cpp \
+    src/ui/sanuiutils.cpp \
+    src/ui/SkinBank.cpp \
+    src/ui/skinitem.cpp \
+    src/ui/sprite.cpp \
+    src/ui/startscene.cpp \
+    src/ui/TablePile.cpp \
+    src/ui/TimedProgressBar.cpp \
+    src/ui/uiUtils.cpp \
+    src/ui/window.cpp \
+    src/ui/choosetriggerorderbox.cpp \
+    src/ui/graphicsbox.cpp \
+    src/ui/lightboxanimation.cpp \
+    src/ui/chooseoptionsbox.cpp \
+
+HEADERS += \
+    src/dialog/AboutUs.h \
+    src/dialog/cardoverview.h \
+    src/dialog/choosegeneraldialog.h \
+    src/dialog/configdialog.h \
+    src/dialog/connectiondialog.h \
+    src/dialog/customassigndialog.h \
+    src/dialog/distanceviewdialog.h \
+    src/dialog/generaloverview.h \
+    src/dialog/mainwindow.h \
+    src/dialog/playercarddialog.h \
+    src/dialog/roleassigndialog.h \
     src/ui/bubblechatbox.h \
     src/ui/button.h \
     src/ui/cardcontainer.h \
@@ -213,16 +222,10 @@ HEADERS += \
     src/ui/TimedProgressBar.h \
     src/ui/uiUtils.h \
     src/ui/window.h \
-    src/util/detector.h \
-    src/util/nativesocket.h \
-    src/util/recorder.h \
-    src/util/socket.h \
     src/ui/choosetriggerorderbox.h \
     src/ui/graphicsbox.h \
     src/ui/lightboxanimation.h \
     src/ui/chooseoptionsbox.h \
-    src/package/testCard.h \
-    src/package/th16.h
 
 
 FORMS += \
@@ -231,17 +234,19 @@ FORMS += \
     src/dialog/connectiondialog.ui \
     src/dialog/generaloverview.ui \
     src/dialog/mainwindow.ui
+
+
+INCLUDEPATH += src/dialog
+INCLUDEPATH += src/ui
 }
 
 INCLUDEPATH += include
-INCLUDEPATH += src/client
 INCLUDEPATH += src/core
-INCLUDEPATH += src/dialog
-INCLUDEPATH += src/package
-INCLUDEPATH += src/scenario
 INCLUDEPATH += src/server
-INCLUDEPATH += src/ui
 INCLUDEPATH += src/util
+INCLUDEPATH += src/package
+INCLUDEPATH += src/client
+INCLUDEPATH += src/scenario
 
 win32{
     RC_FILE += resource/icon.rc

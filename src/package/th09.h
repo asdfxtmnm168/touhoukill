@@ -4,12 +4,12 @@
 #include "card.h"
 #include "package.h"
 
-#include <QAbstractButton>
-#include <QButtonGroup>
-#include <QDialog>
-#include <QGroupBox>
-#include <QHBoxLayout>
-#include <QVBoxLayout>
+//#include <QAbstractButton>
+//#include <QButtonGroup>
+//#include <QDialog>
+//#include <QGroupBox>
+//#include <QHBoxLayout>
+//#include <QVBoxLayout>
 
 class ToupaiCard : public SkillCard
 {
@@ -33,29 +33,29 @@ public:
     virtual const Card *validate(CardUseStruct &cardUse) const;
 };
 
-class NianliDialog : public QDialog
-{
-    Q_OBJECT
+//class NianliDialog : public QDialog
+//{
+//    Q_OBJECT
 
-public:
-    static NianliDialog *getInstance(const QString &object);
+//public:
+//    static NianliDialog *getInstance(const QString &object);
 
-public slots:
-    void popup();
-    void selectCard(QAbstractButton *button);
+//public slots:
+//    void popup();
+//    void selectCard(QAbstractButton *button);
 
-private:
-    explicit NianliDialog(const QString &object);
+//private:
+//    explicit NianliDialog(const QString &object);
 
-    QVBoxLayout *layout;
-    QButtonGroup *group;
-    //QHash<QString, const Card *> map;
+//    QVBoxLayout *layout;
+//    QButtonGroup *group;
+//    //QHash<QString, const Card *> map;
 
-    QString object_name;
+//    QString object_name;
 
-signals:
-    void onButtonClick();
-};
+//signals:
+//    void onButtonClick();
+//};
 
 class NianliCard : public SkillCard
 {

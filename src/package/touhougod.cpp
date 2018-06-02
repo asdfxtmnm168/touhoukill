@@ -9,7 +9,6 @@
 #include "skill.h"
 #include "standard.h"
 #include "th10.h" //for huaxiang
-#include <QCommandLinkButton>
 
 class Chuanghuan : public TriggerSkill
 {
@@ -2055,10 +2054,10 @@ public:
             return NULL;
     }
 
-    virtual QDialog *getDialog() const
-    {
-        return QijiDialog::getInstance("huaxiang", true, false);
-    }
+    //    virtual QDialog *getDialog() const
+    //    {
+    //        return QijiDialog::getInstance("huaxiang", true, false);
+    //    }
 
     virtual bool isEnabledAtNullification(const ServerPlayer *player) const
     {
@@ -4418,131 +4417,130 @@ public:
     }
 };
 
-AnyunDialog *AnyunDialog::getInstance(const QString &object)
-{
-    static AnyunDialog *instance;
-    if (instance == NULL || instance->objectName() != object) {
-        instance = new AnyunDialog(object);
-    }
-    return instance;
-}
+//AnyunDialog *AnyunDialog::getInstance(const QString &object)
+//{
+//    static AnyunDialog *instance;
+//    if (instance == NULL || instance->objectName() != object) {
+//        instance = new AnyunDialog(object);
+//    }
+//    return instance;
+//}
 
-AnyunDialog::AnyunDialog(const QString &object)
-    : object_name(object)
-{
-    setObjectName(object);
-    setWindowTitle(Sanguosha->translate(object));
-    group = new QButtonGroup(this);
+//AnyunDialog::AnyunDialog(const QString &object)
+//    : object_name(object)
+//{
+//    setObjectName(object);
+//    setWindowTitle(Sanguosha->translate(object));
+//    group = new QButtonGroup(this);
 
-    layout = new QVBoxLayout;
-    setLayout(layout);
+//    layout = new QVBoxLayout;
+//    setLayout(layout);
 
-    connect(group, SIGNAL(buttonClicked(QAbstractButton *)), this, SLOT(selectSkill(QAbstractButton *)));
-}
+//    connect(group, SIGNAL(buttonClicked(QAbstractButton *)), this, SLOT(selectSkill(QAbstractButton *)));
+//}
 
-void AnyunDialog::popup()
-{
-    bool play = (Sanguosha->currentRoomState()->getCurrentCardUseReason() == CardUseStruct::CARD_USE_REASON_PLAY);
+//void AnyunDialog::popup()
+//{
+//    bool play = (Sanguosha->currentRoomState()->getCurrentCardUseReason() == CardUseStruct::CARD_USE_REASON_PLAY);
 
-    foreach (QAbstractButton *button, group->buttons()) {
-        layout->removeWidget(button);
-        group->removeButton(button);
-        delete button;
-    }
+//    foreach (QAbstractButton *button, group->buttons()) {
+//        layout->removeWidget(button);
+//        group->removeButton(button);
+//        delete button;
+//    }
 
-    QStringList skill_names;
-    foreach (QString hidden, Self->getHiddenGenerals()) {
-        const General *g = Sanguosha->getGeneral(hidden);
-        foreach (const Skill *skill, g->getSkillList()) {
-            const ViewAsSkill *vs = Sanguosha->getViewAsSkill(skill->objectName());
-            if (vs) {
-                bool add = false;
-                if (play && vs->isEnabledAtPlay(Self))
-                    add = true;
-                if (!play) {
-                    QString pattern = Sanguosha->currentRoomState()->getCurrentCardUsePattern();
-                    if (vs->isEnabledAtResponse(Self, pattern))
-                        add = true;
-                }
-                if (add) {
-                    QCommandLinkButton *button = new QCommandLinkButton;
-                    button->setText(Sanguosha->translate(vs->objectName()));
-                    button->setObjectName(vs->objectName());
-                    group->addButton(button);
+//    QStringList skill_names;
+//    foreach (QString hidden, Self->getHiddenGenerals()) {
+//        const General *g = Sanguosha->getGeneral(hidden);
+//        foreach (const Skill *skill, g->getSkillList()) {
+//            const ViewAsSkill *vs = Sanguosha->getViewAsSkill(skill->objectName());
+//            if (vs) {
+//                bool add = false;
+//                if (play && vs->isEnabledAtPlay(Self))
+//                    add = true;
+//                if (!play) {
+//                    QString pattern = Sanguosha->currentRoomState()->getCurrentCardUsePattern();
+//                    if (vs->isEnabledAtResponse(Self, pattern))
+//                        add = true;
+//                }
+//                if (add) {
+//                    QCommandLinkButton *button = new QCommandLinkButton;
+//                    button->setText(Sanguosha->translate(vs->objectName()));
+//                    button->setObjectName(vs->objectName());
+//                    group->addButton(button);
 
-                    button->setEnabled(true);
-                    button->setToolTip(Sanguosha->getSkill(vs->objectName())->getDescription());
-                    layout->addWidget(button);
-                    //QStringList ops = vs->getDialogCardOptions();
-                    /*if (ops.isEmpty()) {
-                        QCommandLinkButton *button = new QCommandLinkButton;
-                        button->setText(Sanguosha->translate(vs->objectName()));
-                        button->setObjectName(vs->objectName());
-                        group->addButton(button);
+//                    button->setEnabled(true);
+//                    button->setToolTip(Sanguosha->getSkill(vs->objectName())->getDescription());
+//                    layout->addWidget(button);
+//                    //QStringList ops = vs->getDialogCardOptions();
+//                    /*if (ops.isEmpty()) {
+//                        QCommandLinkButton *button = new QCommandLinkButton;
+//                        button->setText(Sanguosha->translate(vs->objectName()));
+//                        button->setObjectName(vs->objectName());
+//                        group->addButton(button);
 
-                        button->setEnabled(true);
-                        button->setToolTip(Sanguosha->getSkill(vs->objectName())->getDescription());
-                        layout->addWidget(button);
-                    }*/
-                    /*else {
-                        QString name1 = Sanguosha->translate(vs->objectName());
-                        foreach(QString cardname, ops) {
-                            QCommandLinkButton *button = new QCommandLinkButton;
-                            QString name2 = Sanguosha->translate(cardname);
-                            button->setText(name1 + ":" + name2);
-                            button->setObjectName(vs->objectName() + ":" + cardname);
-                            group->addButton(button);
+//                        button->setEnabled(true);
+//                        button->setToolTip(Sanguosha->getSkill(vs->objectName())->getDescription());
+//                        layout->addWidget(button);
+//                    }*/
+//                    /*else {
+//                        QString name1 = Sanguosha->translate(vs->objectName());
+//                        foreach(QString cardname, ops) {
+//                            QCommandLinkButton *button = new QCommandLinkButton;
+//                            QString name2 = Sanguosha->translate(cardname);
+//                            button->setText(name1 + ":" + name2);
+//                            button->setObjectName(vs->objectName() + ":" + cardname);
+//                            group->addButton(button);
 
+//                            bool can = true;
+//                            Card *c = Sanguosha->cloneCard(cardname);
+//                            c->setSkillName(vs->objectName());
+//                            if (Self->isCardLimited(c, Card::MethodUse) || !c->isAvailable(Self))
+//                                can = false;
 
-                            bool can = true;
-                            Card *c = Sanguosha->cloneCard(cardname);
-                            c->setSkillName(vs->objectName());
-                            if (Self->isCardLimited(c, Card::MethodUse) || !c->isAvailable(Self))
-                                can = false;
+//                            button->setEnabled(can);
+//                            button->setToolTip(Sanguosha->getSkill(vs->objectName())->getDescription());
+//                            layout->addWidget(button);
+//                            delete c;
+//                        }
+//                    }*/
+//                }
+//            }
+//        }
+//    }
 
-                            button->setEnabled(can);
-                            button->setToolTip(Sanguosha->getSkill(vs->objectName())->getDescription());
-                            layout->addWidget(button);
-                            delete c;
-                        }
-                    }*/
-                }
-            }
-        }
-    }
+//    Self->tag.remove(object_name);
+//    exec();
+//}
+//#include "th09.h"
+//#include "th10.h"
+//void AnyunDialog::selectSkill(QAbstractButton *button)
+//{
+//    const QString skillName = button->objectName();
+//    //const ViewAsSkill*vs = Sanguosha->getViewAsSkill(skillName);
+//    QStringList moreSlecet;
+//    moreSlecet << "nianli"
+//               << "beishui"
+//               << "qiji"
+//               << "xihua"
+//               << "huaxiang"; //<< "chuangshi"
+//    if (moreSlecet.contains(skillName)) {
+//        // #pragma message WARN("todo_lwtmusou: how to get classtype of specific dialog ")
+//        //const ViewAsSkill *s = Sanguosha->getViewAsSkill(ops.first());//like "nianli" "qiji"
+//        if (skillName == "nianli")
+//            NianliDialog::getInstance("nianli")->popup();
+//        else {
+//            if (skillName == "beishui")
+//                QijiDialog::getInstance(skillName, true, false)->popup();
+//            else
+//                QijiDialog::getInstance(skillName)->popup();
+//        }
+//    }
 
-    Self->tag.remove(object_name);
-    exec();
-}
-#include "th09.h"
-#include "th10.h"
-void AnyunDialog::selectSkill(QAbstractButton *button)
-{
-    const QString skillName = button->objectName();
-    //const ViewAsSkill*vs = Sanguosha->getViewAsSkill(skillName);
-    QStringList moreSlecet;
-    moreSlecet << "nianli"
-               << "beishui"
-               << "qiji"
-               << "xihua"
-               << "huaxiang"; //<< "chuangshi"
-    if (moreSlecet.contains(skillName)) {
-        // #pragma message WARN("todo_lwtmusou: how to get classtype of specific dialog ")
-        //const ViewAsSkill *s = Sanguosha->getViewAsSkill(ops.first());//like "nianli" "qiji"
-        if (skillName == "nianli")
-            NianliDialog::getInstance("nianli")->popup();
-        else {
-            if (skillName == "beishui")
-                QijiDialog::getInstance(skillName, true, false)->popup();
-            else
-                QijiDialog::getInstance(skillName)->popup();
-        }
-    }
-
-    Self->tag[object_name] = QVariant::fromValue(skillName);
-    emit onButtonClick();
-    accept();
-}
+//    Self->tag[object_name] = QVariant::fromValue(skillName);
+//    emit onButtonClick();
+//    accept();
+//}
 
 class AnyunVS : public ViewAsSkill
 {
@@ -4638,10 +4636,10 @@ public:
         view_as_skill = new AnyunVS;
     }
 
-    virtual QDialog *getDialog() const
-    {
-        return AnyunDialog::getInstance("anyun");
-    }
+    //    virtual QDialog *getDialog() const
+    //    {
+    //        return AnyunDialog::getInstance("anyun");
+    //    }
 
     QList<SkillInvokeDetail> triggerable(TriggerEvent triggerEvent, const Room *, const QVariant &data) const
     {

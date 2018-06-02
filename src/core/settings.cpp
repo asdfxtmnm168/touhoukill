@@ -1,13 +1,11 @@
 #include "settings.h"
 #include "card.h"
 #include "engine.h"
-#include "photo.h"
 
-#include <QApplication>
+#include <QCoreApplication>
 #include <QDateTime>
 #include <QFile>
 #include <QFontDatabase>
-#include <QMessageBox>
 #include <QNetworkInterface>
 #include <QStringList>
 
@@ -46,8 +44,9 @@ void Settings::init()
             BigFont.setFamily(font_family);
             SmallFont.setFamily(font_family);
             TinyFont.setFamily(font_family);
-        } else
-            QMessageBox::warning(NULL, tr("Warning"), tr("Font file %1 could not be loaded!").arg(font_path));
+        }
+        //        else
+        //            QMessageBox::warning(NULL, tr("Warning"), tr("Font file %1 could not be loaded!").arg(font_path));
 
         BigFont.setPixelSize(56);
         SmallFont.setPixelSize(27);
@@ -55,8 +54,8 @@ void Settings::init()
 
         SmallFont.setWeight(QFont::Bold);
 
-        AppFont = value("AppFont", QApplication::font("QMainWindow")).value<QFont>();
-        UIFont = value("UIFont", QApplication::font("QTextEdit")).value<QFont>();
+        //        AppFont = value("AppFont", QApplication::font("QMainWindow")).value<QFont>();
+        //        UIFont = value("UIFont", QApplication::font("QTextEdit")).value<QFont>();
         TextEditColor = QColor(value("TextEditColor", "white").toString());
         ToolTipBackgroundColor = value("ToolTipBackgroundColor", "#000000").toString();
     }

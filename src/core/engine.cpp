@@ -13,10 +13,9 @@
 #include "settings.h"
 #include "structs.h"
 
-#include <QApplication>
+#include <QCoreApplication>
 #include <QDir>
 #include <QFile>
-#include <QMessageBox>
 #include <QStringList>
 #include <QTextStream>
 #include <QVersionNumber>
@@ -159,8 +158,8 @@ const Scenario *Engine::getScenario(const QString &name) const
 void Engine::addSkills(const QList<const Skill *> &all_skills)
 {
     foreach (const Skill *skill, all_skills) {
-        if (skills.contains(skill->objectName()))
-            QMessageBox::warning(NULL, "", tr("Duplicated skill : %1").arg(skill->objectName()));
+        //        if (skills.contains(skill->objectName()))
+        //            QMessageBox::warning(NULL, "", tr("Duplicated skill : %1").arg(skill->objectName()));
 
         skills.insert(skill->objectName(), skill);
 

@@ -42,7 +42,7 @@ QDialog *LuaViewAsSkill::getDialog() const
     bool has_left = (dialog_type & 1);
     bool has_right = (dialog_type & 2);
 
-    return QijiDialog::getInstance(objectName(), has_left, has_right);
+    return NULL; // QijiDialog::getInstance(objectName(), has_left, has_right);
 }
 
 LuaFilterSkill::LuaFilterSkill(const char *name)

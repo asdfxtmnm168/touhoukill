@@ -330,14 +330,14 @@ private:
 #include "lua-wrapper.h"
 #include "clientplayer.h"
 
-#include <QMessageBox>
+#include <QDebug>
 
 
 static void Error(lua_State *L)
 {
     const char *error_string = lua_tostring(L, -1);
     lua_pop(L, 1);
-    QMessageBox::warning(NULL, "Lua script error!", error_string);
+	qDebug("Lua script error: %s", error_string);
 }
 
 void LuaTriggerSkill::record(TriggerEvent triggerEvent, Room *room, QVariant &data) const

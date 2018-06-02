@@ -4,13 +4,12 @@
 class Player;
 class Card;
 class ServerPlayer;
-class QDialog;
 
 #include "room.h"
 #include "standard.h"
 #include "structs.h"
 
-#include <QDialog>
+// #include <QDialog>
 #include <QObject>
 
 class Skill : public QObject
@@ -39,7 +38,7 @@ public:
     bool isVisible() const;
 
     virtual int getEffectIndex(const ServerPlayer *player, const Card *card) const;
-    virtual QDialog *getDialog() const;
+    // virtual QDialog *getDialog() const;
 
     void initMediaSource();
     void playAudioEffect(int index = -1) const;

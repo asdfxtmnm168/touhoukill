@@ -1,7 +1,7 @@
 #include "detector.h"
 #include "settings.h"
 
-#include <QApplication>
+#include <QCoreApplication>
 
 UdpDetector::UdpDetector()
 {

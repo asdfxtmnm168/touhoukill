@@ -5,7 +5,6 @@
 
 #include "json.h"
 #include <QFile>
-#include <QMessageBox>
 
 using namespace QSanProtocol;
 

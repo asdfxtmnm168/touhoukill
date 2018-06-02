@@ -7,7 +7,6 @@
 #include "skill.h"
 #include "standard.h"
 #include "th13.h"
-#include <QCommandLinkButton>
 
 class ShendeVS : public ViewAsSkill
 {
@@ -362,227 +361,227 @@ public:
     }
 };
 
-QijiDialog *QijiDialog::getInstance(const QString &object, bool left, bool right)
-{
-    static QijiDialog *instance;
-    if (instance == NULL || instance->objectName() != object) {
-        instance = new QijiDialog(object, left, right);
-    }
-    return instance;
-}
+//QijiDialog *QijiDialog::getInstance(const QString &object, bool left, bool right)
+//{
+//    static QijiDialog *instance;
+//    if (instance == NULL || instance->objectName() != object) {
+//        instance = new QijiDialog(object, left, right);
+//    }
+//    return instance;
+//}
 
-QijiDialog::QijiDialog(const QString &object, bool left, bool right)
-    : object_name(object)
-{
-    setObjectName(object);
-    setWindowTitle(Sanguosha->translate(object)); //need translate title?
-    group = new QButtonGroup(this);
+//QijiDialog::QijiDialog(const QString &object, bool left, bool right)
+//    : object_name(object)
+//{
+//    setObjectName(object);
+//    setWindowTitle(Sanguosha->translate(object)); //need translate title?
+//    group = new QButtonGroup(this);
 
-    QHBoxLayout *layout = new QHBoxLayout;
-    if (left)
-        layout->addWidget(createLeft());
-    if (right)
-        layout->addWidget(createRight());
-    setLayout(layout);
+//    QHBoxLayout *layout = new QHBoxLayout;
+//    if (left)
+//        layout->addWidget(createLeft());
+//    if (right)
+//        layout->addWidget(createRight());
+//    setLayout(layout);
 
-    connect(group, SIGNAL(buttonClicked(QAbstractButton *)), this, SLOT(selectCard(QAbstractButton *)));
-}
+//    connect(group, SIGNAL(buttonClicked(QAbstractButton *)), this, SLOT(selectCard(QAbstractButton *)));
+//}
 
-void QijiDialog::popup()
-{
-    Card::HandlingMethod method;
-    if (Sanguosha->currentRoomState()->getCurrentCardUseReason() == CardUseStruct::CARD_USE_REASON_RESPONSE)
-        method = Card::MethodResponse;
-    else
-        method = Card::MethodUse;
+//void QijiDialog::popup()
+//{
+//    Card::HandlingMethod method;
+//    if (Sanguosha->currentRoomState()->getCurrentCardUseReason() == CardUseStruct::CARD_USE_REASON_RESPONSE)
+//        method = Card::MethodResponse;
+//    else
+//        method = Card::MethodUse;
 
-    QStringList checkedPatterns;
-    QString pattern = Sanguosha->currentRoomState()->getCurrentCardUsePattern();
-    bool play = (Sanguosha->currentRoomState()->getCurrentCardUseReason() == CardUseStruct::CARD_USE_REASON_PLAY);
+//    QStringList checkedPatterns;
+//    QString pattern = Sanguosha->currentRoomState()->getCurrentCardUsePattern();
+//    bool play = (Sanguosha->currentRoomState()->getCurrentCardUseReason() == CardUseStruct::CARD_USE_REASON_PLAY);
 
-    //collect avaliable patterns for specific skill
-    QStringList validPatterns;
-    if (object_name == "huaxiang") {
-        validPatterns << "slash"
-                      << "analeptic";
-        if (Self->getMaxHp() <= 3)
-            validPatterns << "jink";
-        if (Self->getMaxHp() <= 2)
-            validPatterns << "peach";
-    } else if (object_name == "xihua") {
-        QList<const Card *> cards = Sanguosha->findChildren<const Card *>();
-        foreach (const Card *card, cards) {
-            if ((card->isNDTrick() || card->isKindOf("BasicCard")) && !ServerInfo.Extensions.contains("!" + card->getPackage())) {
-                QString name = card->objectName();
-                if (card->isKindOf("Slash"))
-                    name = "slash";
-                QString markName = "xihua_record_" + name;
-                if (!validPatterns.contains(name) && Self->getMark(markName) == 0)
-                    validPatterns << card->objectName();
-            }
-        }
-    }
-    //if (object_name == "qiji") {
-    else {
-        QList<const Card *> cards = Sanguosha->findChildren<const Card *>();
-        foreach (const Card *card, cards) {
-            if ((card->isNDTrick() || card->isKindOf("BasicCard")) && !ServerInfo.Extensions.contains("!" + card->getPackage())) {
-                QString name = card->objectName();
-                if (card->isKindOf("Slash"))
-                    name = "slash";
-                if (!validPatterns.contains(name))
-                    validPatterns << card->objectName();
-            }
-        }
-    }
-    //then match it and check "CardLimit"
-    foreach (QString str, validPatterns) {
-        const Skill *skill = Sanguosha->getSkill(object_name);
-        if (play || skill->matchAvaliablePattern(str, pattern)) {
-            Card *card = Sanguosha->cloneCard(str);
-            DELETE_OVER_SCOPE(Card, card)
-            if (!Self->isCardLimited(card, method))
-                checkedPatterns << str;
-        }
-    }
-    //while responsing, if only one pattern were checked, emit click()
-    if (object_name != "chuangshi" && !play && checkedPatterns.length() <= 1 && !checkedPatterns.contains("slash")) {
-        emit onButtonClick();
-        return;
-    }
+//    //collect avaliable patterns for specific skill
+//    QStringList validPatterns;
+//    if (object_name == "huaxiang") {
+//        validPatterns << "slash"
+//                      << "analeptic";
+//        if (Self->getMaxHp() <= 3)
+//            validPatterns << "jink";
+//        if (Self->getMaxHp() <= 2)
+//            validPatterns << "peach";
+//    } else if (object_name == "xihua") {
+//        QList<const Card *> cards = Sanguosha->findChildren<const Card *>();
+//        foreach (const Card *card, cards) {
+//            if ((card->isNDTrick() || card->isKindOf("BasicCard")) && !ServerInfo.Extensions.contains("!" + card->getPackage())) {
+//                QString name = card->objectName();
+//                if (card->isKindOf("Slash"))
+//                    name = "slash";
+//                QString markName = "xihua_record_" + name;
+//                if (!validPatterns.contains(name) && Self->getMark(markName) == 0)
+//                    validPatterns << card->objectName();
+//            }
+//        }
+//    }
+//    //if (object_name == "qiji") {
+//    else {
+//        QList<const Card *> cards = Sanguosha->findChildren<const Card *>();
+//        foreach (const Card *card, cards) {
+//            if ((card->isNDTrick() || card->isKindOf("BasicCard")) && !ServerInfo.Extensions.contains("!" + card->getPackage())) {
+//                QString name = card->objectName();
+//                if (card->isKindOf("Slash"))
+//                    name = "slash";
+//                if (!validPatterns.contains(name))
+//                    validPatterns << card->objectName();
+//            }
+//        }
+//    }
+//    //then match it and check "CardLimit"
+//    foreach (QString str, validPatterns) {
+//        const Skill *skill = Sanguosha->getSkill(object_name);
+//        if (play || skill->matchAvaliablePattern(str, pattern)) {
+//            Card *card = Sanguosha->cloneCard(str);
+//            DELETE_OVER_SCOPE(Card, card)
+//            if (!Self->isCardLimited(card, method))
+//                checkedPatterns << str;
+//        }
+//    }
+//    //while responsing, if only one pattern were checked, emit click()
+//    if (object_name != "chuangshi" && !play && checkedPatterns.length() <= 1 && !checkedPatterns.contains("slash")) {
+//        emit onButtonClick();
+//        return;
+//    }
 
-    foreach (QAbstractButton *button, group->buttons()) {
-        const Card *card = map[button->objectName()];
-        const Player *user = NULL;
-        if (object_name == "chuangshi") { //check the card is Available for chuangshi target.
-            foreach (const Player *p, Self->getAliveSiblings()) {
-                if (p->getMark("chuangshi_user") > 0) {
-                    user = p;
-                    break;
-                }
-            }
-        } else
-            user = Self;
-        if (user == NULL)
-            user = Self;
+//    foreach (QAbstractButton *button, group->buttons()) {
+//        const Card *card = map[button->objectName()];
+//        const Player *user = NULL;
+//        if (object_name == "chuangshi") { //check the card is Available for chuangshi target.
+//            foreach (const Player *p, Self->getAliveSiblings()) {
+//                if (p->getMark("chuangshi_user") > 0) {
+//                    user = p;
+//                    break;
+//                }
+//            }
+//        } else
+//            user = Self;
+//        if (user == NULL)
+//            user = Self;
 
-        bool avaliable = card->isAvailable(user);
-        if (object_name == "qiji" && user->getMark("xiubu"))
-            avaliable = true;
+//        bool avaliable = card->isAvailable(user);
+//        if (object_name == "qiji" && user->getMark("xiubu"))
+//            avaliable = true;
 
-        bool checked = (checkedPatterns.contains(card->objectName()) || (card->isKindOf("Slash") && checkedPatterns.contains("slash")));
-        bool enabled = !user->isCardLimited(card, method, true) && avaliable && (checked || object_name == "chuangshi");
-        button->setEnabled(enabled);
-    }
+//        bool checked = (checkedPatterns.contains(card->objectName()) || (card->isKindOf("Slash") && checkedPatterns.contains("slash")));
+//        bool enabled = !user->isCardLimited(card, method, true) && avaliable && (checked || object_name == "chuangshi");
+//        button->setEnabled(enabled);
+//    }
 
-    Self->tag.remove(object_name);
-    exec();
-}
+//    Self->tag.remove(object_name);
+//    exec();
+//}
 
-void QijiDialog::selectCard(QAbstractButton *button)
-{
-    const Card *card = map.value(button->objectName());
-    Self->tag[object_name] = QVariant::fromValue(card->objectName());
+//void QijiDialog::selectCard(QAbstractButton *button)
+//{
+//    const Card *card = map.value(button->objectName());
+//    Self->tag[object_name] = QVariant::fromValue(card->objectName());
 
-    emit onButtonClick();
-    accept();
-}
+//    emit onButtonClick();
+//    accept();
+//}
 
-QGroupBox *QijiDialog::createLeft()
-{
-    QGroupBox *box = new QGroupBox;
-    box->setTitle(Sanguosha->translate("basic"));
+//QGroupBox *QijiDialog::createLeft()
+//{
+//    QGroupBox *box = new QGroupBox;
+//    box->setTitle(Sanguosha->translate("basic"));
 
-    QVBoxLayout *layout = new QVBoxLayout;
+//    QVBoxLayout *layout = new QVBoxLayout;
 
-    QList<const Card *> cards = Sanguosha->findChildren<const Card *>();
-    QStringList ban_list; //no need to ban
-    //if (object_name == "chuangshi")
-   //     ban_list << "Analeptic";
+//    QList<const Card *> cards = Sanguosha->findChildren<const Card *>();
+//    QStringList ban_list; //no need to ban
+//    //if (object_name == "chuangshi")
+//   //     ban_list << "Analeptic";
 
-    foreach (const Card *card, cards) {
-        if (card->getTypeId() == Card::TypeBasic && !map.contains(card->objectName()) && !ban_list.contains(card->getClassName())
-            && !ServerInfo.Extensions.contains("!" + card->getPackage())) {
-            Card *c = Sanguosha->cloneCard(card->objectName());
-            c->setParent(this);
-            layout->addWidget(createButton(c));
-        }
-    }
+//    foreach (const Card *card, cards) {
+//        if (card->getTypeId() == Card::TypeBasic && !map.contains(card->objectName()) && !ban_list.contains(card->getClassName())
+//            && !ServerInfo.Extensions.contains("!" + card->getPackage())) {
+//            Card *c = Sanguosha->cloneCard(card->objectName());
+//            c->setParent(this);
+//            layout->addWidget(createButton(c));
+//        }
+//    }
 
-    layout->addStretch();
-    box->setLayout(layout);
-    return box;
-}
+//    layout->addStretch();
+//    box->setLayout(layout);
+//    return box;
+//}
 
-QGroupBox *QijiDialog::createRight()
-{
-    QGroupBox *box = new QGroupBox(Sanguosha->translate("ndtrick"));
-    QHBoxLayout *layout = new QHBoxLayout;
+//QGroupBox *QijiDialog::createRight()
+//{
+//    QGroupBox *box = new QGroupBox(Sanguosha->translate("ndtrick"));
+//    QHBoxLayout *layout = new QHBoxLayout;
 
-    QGroupBox *box1 = new QGroupBox(Sanguosha->translate("single_target_trick"));
-    QVBoxLayout *layout1 = new QVBoxLayout;
+//    QGroupBox *box1 = new QGroupBox(Sanguosha->translate("single_target_trick"));
+//    QVBoxLayout *layout1 = new QVBoxLayout;
 
-    QGroupBox *box2 = new QGroupBox(Sanguosha->translate("multiple_target_trick"));
-    QVBoxLayout *layout2 = new QVBoxLayout;
+//    QGroupBox *box2 = new QGroupBox(Sanguosha->translate("multiple_target_trick"));
+//    QVBoxLayout *layout2 = new QVBoxLayout;
 
-    QStringList ban_list; //no need to ban
-    //if (object_name == "chuangshi")
-    //    ban_list << "GodSalvation"
-    //             << "ArcheryAttack"
-    //             << "SavageAssault";
-    //    ban_list << "Drowning" << "BurningCamps" << "LureTiger";
+//    QStringList ban_list; //no need to ban
+//    //if (object_name == "chuangshi")
+//    //    ban_list << "GodSalvation"
+//    //             << "ArcheryAttack"
+//    //             << "SavageAssault";
+//    //    ban_list << "Drowning" << "BurningCamps" << "LureTiger";
 
-    QList<const Card *> cards = Sanguosha->findChildren<const Card *>();
-    foreach (const Card *card, cards) {
-        if (card->isNDTrick() && !map.contains(card->objectName()) && !ban_list.contains(card->getClassName()) && !ServerInfo.Extensions.contains("!" + card->getPackage())) {
-            if (object_name == "chuangshi") {
-                if (!card->isNDTrick() || card->isKindOf("AOE") || card->isKindOf("GlobalEffect"))
-                    continue;
-            }
+//    QList<const Card *> cards = Sanguosha->findChildren<const Card *>();
+//    foreach (const Card *card, cards) {
+//        if (card->isNDTrick() && !map.contains(card->objectName()) && !ban_list.contains(card->getClassName()) && !ServerInfo.Extensions.contains("!" + card->getPackage())) {
+//            if (object_name == "chuangshi") {
+//                if (!card->isNDTrick() || card->isKindOf("AOE") || card->isKindOf("GlobalEffect"))
+//                    continue;
+//            }
 
-            Card *c = Sanguosha->cloneCard(card->objectName());
-            c->setSkillName(object_name);
-            c->setParent(this);
+//            Card *c = Sanguosha->cloneCard(card->objectName());
+//            c->setSkillName(object_name);
+//            c->setParent(this);
 
-            QVBoxLayout *layout = c->isKindOf("SingleTargetTrick") ? layout1 : layout2;
-            layout->addWidget(createButton(c));
-        }
-    }
+//            QVBoxLayout *layout = c->isKindOf("SingleTargetTrick") ? layout1 : layout2;
+//            layout->addWidget(createButton(c));
+//        }
+//    }
 
-    box->setLayout(layout);
-    box1->setLayout(layout1);
-    box2->setLayout(layout2);
+//    box->setLayout(layout);
+//    box1->setLayout(layout1);
+//    box2->setLayout(layout2);
 
-    layout1->addStretch();
-    layout2->addStretch();
+//    layout1->addStretch();
+//    layout2->addStretch();
 
-    layout->addWidget(box1);
-    layout->addWidget(box2);
-    return box;
-}
+//    layout->addWidget(box1);
+//    layout->addWidget(box2);
+//    return box;
+//}
 
-QAbstractButton *QijiDialog::createButton(const Card *card)
-{
-    if (card->objectName() == "slash" && map.contains(card->objectName()) && !map.contains("normal_slash")) {
-        QCommandLinkButton *button = new QCommandLinkButton(Sanguosha->translate("normal_slash"));
-        button->setObjectName("normal_slash");
-        button->setToolTip(card->getDescription());
+//QAbstractButton *QijiDialog::createButton(const Card *card)
+//{
+//    if (card->objectName() == "slash" && map.contains(card->objectName()) && !map.contains("normal_slash")) {
+//        QCommandLinkButton *button = new QCommandLinkButton(Sanguosha->translate("normal_slash"));
+//        button->setObjectName("normal_slash");
+//        button->setToolTip(card->getDescription());
 
-        map.insert("normal_slash", card);
-        group->addButton(button);
+//        map.insert("normal_slash", card);
+//        group->addButton(button);
 
-        return button;
-    } else {
-        QCommandLinkButton *button = new QCommandLinkButton(Sanguosha->translate(card->objectName()));
-        button->setObjectName(card->objectName());
-        button->setToolTip(card->getDescription());
+//        return button;
+//    } else {
+//        QCommandLinkButton *button = new QCommandLinkButton(Sanguosha->translate(card->objectName()));
+//        button->setObjectName(card->objectName());
+//        button->setToolTip(card->getDescription());
 
-        map.insert(card->objectName(), card);
-        group->addButton(button);
+//        map.insert(card->objectName(), card);
+//        group->addButton(button);
 
-        return button;
-    }
-}
+//        return button;
+//    }
+//}
 
 QijiCard::QijiCard()
 {
@@ -808,10 +807,10 @@ public:
         view_as_skill = new QijiVS;
     }
 
-    virtual QDialog *getDialog() const
-    {
-        return QijiDialog::getInstance("qiji");
-    }
+    //    virtual QDialog *getDialog() const
+    //    {
+    //        return QijiDialog::getInstance("qiji");
+    //    }
 
     void record(TriggerEvent e, Room *room, QVariant &data) const
     {
@@ -1190,7 +1189,8 @@ public:
               << "@yu"
               << "@zhengti"
               << "@xinyang"
-              << "@ice" << "@stars";
+              << "@ice"
+              << "@stars";
         QStringList disablePiles;
         disablePiles << "wooden_ox";
         foreach (ServerPlayer *p, room->getAlivePlayers()) {

@@ -3,13 +3,7 @@
 
 #include "card.h"
 #include "package.h"
-
-#include <QAbstractButton>
-#include <QButtonGroup>
-#include <QDialog>
-#include <QGroupBox>
-#include <QHBoxLayout>
-#include <QVBoxLayout>
+#include <QObject>
 
 class GongfengCard : public SkillCard
 {
@@ -22,31 +16,31 @@ public:
     virtual bool targetFilter(const QList<const Player *> &targets, const Player *to_select, const Player *Self) const;
 };
 
-class QijiDialog : public QDialog
-{
-    Q_OBJECT
+//class QijiDialog : public QDialog
+//{
+//    Q_OBJECT
 
-public:
-    static QijiDialog *getInstance(const QString &object, bool left = true, bool right = true);
+//public:
+//    static QijiDialog *getInstance(const QString &object, bool left = true, bool right = true);
 
-public slots:
-    void popup();
-    void selectCard(QAbstractButton *button);
+//public slots:
+//    void popup();
+//    void selectCard(QAbstractButton *button);
 
-private:
-    explicit QijiDialog(const QString &object, bool left = true, bool right = true);
+//private:
+//    explicit QijiDialog(const QString &object, bool left = true, bool right = true);
 
-    QGroupBox *createLeft();
-    QGroupBox *createRight();
-    QAbstractButton *createButton(const Card *card);
-    QButtonGroup *group;
-    QHash<QString, const Card *> map;
+//    QGroupBox *createLeft();
+//    QGroupBox *createRight();
+//    QAbstractButton *createButton(const Card *card);
+//    QButtonGroup *group;
+//    QHash<QString, const Card *> map;
 
-    QString object_name;
+//    QString object_name;
 
-signals:
-    void onButtonClick();
-};
+//signals:
+//    void onButtonClick();
+//};
 
 class QijiCard : public SkillCard
 {

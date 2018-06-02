@@ -1,8 +1,5 @@
 #include "server.h"
-#include "SkinBank.h"
 #include "banpair.h"
-#include "choosegeneraldialog.h"
-#include "customassigndialog.h"
 #include "engine.h"
 #include "miniscenarios.h"
 #include "nativesocket.h"
@@ -11,20 +8,24 @@
 #include "scenario.h"
 #include "settings.h"
 
+#include <QCoreApplication>
+#include <QHostInfo>
+using namespace QSanProtocol;
+
+#if 0
+
 #include <QAction>
 #include <QApplication>
 #include <QComboBox>
 #include <QFormLayout>
 #include <QGroupBox>
 #include <QHBoxLayout>
-#include <QHostInfo>
 #include <QLabel>
 #include <QMessageBox>
 #include <QPushButton>
 #include <QRadioButton>
 #include <QVBoxLayout>
 
-using namespace QSanProtocol;
 
 static QLayout *HLay(QWidget *left, QWidget *right)
 {
@@ -1168,6 +1169,7 @@ bool ServerDialog::config()
 
     return true;
 }
+#endif
 
 Server::Server(QObject *parent)
     : QObject(parent)
