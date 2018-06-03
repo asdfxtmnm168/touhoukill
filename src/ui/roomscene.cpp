@@ -125,7 +125,7 @@ RoomScene::RoomScene(QMainWindow *main_window)
     miscellaneous_menu = new QMenu(main_window);
 
     change_general_menu = new QMenu(main_window);
-    QAction *action = change_general_menu->addAction(tr("Change general ..."));
+    QAction *action = change_general_menu->addAction(tr("Change general..."));
     FreeChooseDialog *general_changer = new FreeChooseDialog(main_window);
     connect(action, SIGNAL(triggered()), general_changer, SLOT(exec()));
     connect(general_changer, SIGNAL(general_chosen(QString)), this, SLOT(changeGeneral(QString)));
@@ -270,7 +270,7 @@ RoomScene::RoomScene(QMainWindow *main_window)
     chat_edit_widget->setZValue(-2.0);
     connect(chat_edit, SIGNAL(returnPressed()), this, SLOT(speak()));
 #if QT_VERSION >= 0x040700
-    chat_edit->setPlaceholderText(tr("Please enter text to chat ... "));
+    chat_edit->setPlaceholderText(tr("Please enter text to chat... "));
 #endif
 
     chat_widget = new ChatWidget();
@@ -372,7 +372,7 @@ RoomScene::RoomScene(QMainWindow *main_window)
     animations = new EffectAnimation(this);
 
     pausing_item = new QGraphicsRectItem;
-    pausing_text = new QGraphicsSimpleTextItem(tr("Paused ..."));
+    pausing_text = new QGraphicsSimpleTextItem(tr("Paused..."));
     addItem(pausing_item);
     addItem(pausing_text);
 

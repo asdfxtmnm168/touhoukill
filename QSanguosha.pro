@@ -9,9 +9,7 @@ win32: QT += winextras
 
 CONFIG += c++11 lua
 
-SOURCES += src/main.cpp #src
-
-SOURCES += \
+SOURCES += src/main.cpp \
     src/core/banpair.cpp \
     src/core/card.cpp \
     src/core/engine.cpp \
@@ -396,12 +394,6 @@ android:DEFINES += "\"getlocaledecpoint()='.'\""
     INCLUDEPATH += src/lua
 }
 
-DISTFILES += \
-    qml/MainWindow.qml \
-    qml/ConfigDialog.qml \
-    qml/StartScene.qml \
-    qml/QSanButton.qml
-
 
 !build_pass{
     system("lrelease $$_PRO_FILE_PWD_/builds/sanguosha.ts -qm $$_PRO_FILE_PWD_/sanguosha.qm")
@@ -412,6 +404,20 @@ DISTFILES += \
     system("$$SWIG_bin -c++ -lua $$_PRO_FILE_PWD_/swig/sanguosha.i")
 }
 
-TRANSLATIONS += builds/sanguosha.ts
 
 ANDROID_PACKAGE_SOURCE_DIR = $$_PRO_FILE_PWD_/resource/android
+
+
+QMLFILES = \
+    qml/ConfigDialog.qml \
+    qml/MainWindow.qml \
+    qml/QSanButton.qml \
+    qml/StartScene.qml
+
+DISTFILES += $$QMLFILES
+
+lupdate_only {
+    SOURCES += $$QMLFILES
+}
+
+TRANSLATIONS += builds/sanguosha.ts

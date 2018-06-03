@@ -921,8 +921,7 @@ public:
         ids << drawpile.last();
         if (drawpile.length() >= 2)
             ids << drawpile.at(drawpile.length() - 2);
-        //= room->getNCards(2, true, true);
-        //ids << room->drawCard(true);
+
         LogMessage l;
         l.type = "$xunbaoDrawpile";
         l.card_str = IntList2StringList(ids).join("+");

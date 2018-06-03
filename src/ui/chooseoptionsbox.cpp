@@ -21,8 +21,6 @@ Mogara
 //#include "timed-progressbar.h"
 #include "TimedProgressBar.h"
 
-#include <QGraphicsProxyWidget>
-
 ChooseOptionsBox::ChooseOptionsBox()
     : progressBar(NULL)
 {
@@ -44,13 +42,7 @@ ChooseOptionsBox::ChooseOptionsBox()
 QRectF ChooseOptionsBox::boundingRect() const
 {
     const int width = getButtonWidth() + outerBlankWidth * 2;
-    //= getButtonWidth() * (qMax(options.length(), 1)) + outerBlankWidth * 2 + (qMax(options.length(), 1) - 1) * interval;
 
-    //int max = 0;
-    //foreach(const QString &str, options)
-    //     max = qMax(max, str.split("+").length());
-
-    //int height = topBlankWidth + max * defaultButtonHeight + (max - 1) * interval + bottomBlankWidth;
     int height = topBlankWidth + options.size() * defaultButtonHeight + (options.size() - 1) * interval + bottomBlankWidth;
 
     if (ServerInfo.OperationTimeout != 0)

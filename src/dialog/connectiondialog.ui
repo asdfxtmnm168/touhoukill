@@ -86,7 +86,7 @@
 </rect>
 </property>
 <property name="text">
-<string>Detect LAN ...</string>
+<string>Detect LAN...</string>
 </property>
 </widget>
 <widget class="QPushButton" name="clearHistoryButton">

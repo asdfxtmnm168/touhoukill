@@ -69,7 +69,7 @@ QWidget *ServerDialog::createBasicTab()
     connect(nolimit_checkbox, SIGNAL(toggled(bool)), timeout_spinbox, SLOT(setDisabled(bool)));
 
     // add 1v1 banlist edit button
-    QPushButton *edit_button = new QPushButton(tr("Banlist ..."));
+    QPushButton *edit_button = new QPushButton(tr("Banlist..."));
     edit_button->setFixedWidth(100);
     connect(edit_button, SIGNAL(clicked()), this, SLOT(edit1v1Banlist()));
 
@@ -499,10 +499,10 @@ BanlistDialog::BanlistDialog(QWidget *parent, bool view)
     tab->addTab(apage, Sanguosha->translate("Pairs"));
     lists << list;
 
-    QPushButton *add = new QPushButton(tr("Add ..."));
+    QPushButton *add = new QPushButton(tr("Add..."));
     QPushButton *remove = new QPushButton(tr("Remove"));
     if (!view)
-        add2nd = new QPushButton(tr("Add 2nd general ..."));
+        add2nd = new QPushButton(tr("Add 2nd general..."));
     QPushButton *ok = new QPushButton(tr("OK"));
 
     connect(ok, SIGNAL(clicked()), this, SLOT(accept()));
@@ -681,7 +681,7 @@ QGroupBox *ServerDialog::create3v3Box()
     officialComboBox->setCurrentIndex(2);
     */
     QRadioButton *extend = new QRadioButton(tr("Extension mode"));
-    QPushButton *extend_edit_button = new QPushButton(tr("General selection ..."));
+    QPushButton *extend_edit_button = new QPushButton(tr("General selection..."));
     extend_edit_button->setEnabled(false);
     connect(extend, SIGNAL(toggled(bool)), extend_edit_button, SLOT(setEnabled(bool)));
     connect(extend_edit_button, SIGNAL(clicked()), this, SLOT(select3v3Generals()));
