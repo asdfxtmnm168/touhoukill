@@ -128,7 +128,10 @@ HEADERS += \
     src/util/recorder.h \
     src/util/socket.h \
     src/package/testCard.h \
-    src/package/th16.h
+    src/package/th16.h \
+    src/pch.h
+
+PRECOMPILED_HEADER = src/pch.h
 
 CONFIG(origprogram){
 SOURCES += \
@@ -404,9 +407,9 @@ android:DEFINES += "\"getlocaledecpoint()='.'\""
     system("$$SWIG_bin -c++ -lua $$_PRO_FILE_PWD_/swig/sanguosha.i")
 }
 
-
 ANDROID_PACKAGE_SOURCE_DIR = $$_PRO_FILE_PWD_/resource/android
 
+#DEFINES += QT_NO_CAST_FROM_ASCII
 
 QMLFILES = \
     qml/ConfigDialog.qml \
