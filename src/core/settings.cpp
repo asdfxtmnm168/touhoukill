@@ -4,12 +4,16 @@
 
 #include <QCoreApplication>
 #include <QDateTime>
+#include <QDebug>
 #include <QFile>
 #include <QFontDatabase>
+#include <QGlobalStatic>
+#include <QJSEngine>
+#include <QJSValue>
 #include <QNetworkInterface>
 #include <QStringList>
 
-Settings Config;
+Q_GLOBAL_STATIC(Settings, ConfigInstance)
 
 static const qreal ViewWidth = 1280 * 0.8;
 static const qreal ViewHeight = 800 * 0.8;
@@ -21,6 +25,29 @@ const int Settings::S_SERVER_TIMEOUT_GRACIOUS_PERIOD = 1000;
 const int Settings::S_MOVE_CARD_ANIMATION_DURATION = 600;
 const int Settings::S_JUDGE_ANIMATION_DURATION = 1200;
 const int Settings::S_JUDGE_LONG_DELAY = 800;
+
+QJSValue Settings::jsValue(const QString &key, const QJSValue &defaultValue)
+{
+    if (contains(key)) {
+        qDebug(value(key).typeName());
+        qDebug(value(key).toString().toLocal8Bit().constData());
+        if (value(key).type() == QMetaType::Bool) {
+            qDebug("%s: %s", key.toLocal8Bit().constData(), value(key).toBool() ? "true" : "false");
+        }
+
+        return defaultValue.engine()->toScriptValue(value(key));
+    } else
+        return defaultValue;
+}
+
+void Settings::setJsValue(const QString &key, const QJSValue &value)
+{
+    qDebug(value.toVariant().typeName());
+    if (value.toVariant().type() == QMetaType::Bool) {
+        qDebug("%s: %s", key.toLocal8Bit().constData(), value.toVariant().toBool() ? "true" : "false");
+    }
+    setValue(key, value.toVariant());
+}
 
 Settings::Settings()
 #ifdef Q_OS_WIN32
@@ -122,12 +149,6 @@ void Settings::init()
     NullificationCountDown = value("NullificationCountDown", 8).toInt();
     OperationTimeout = value("OperationTimeout", 15).toInt();
     OperationNoLimit = value("OperationNoLimit", false).toBool();
-    EnableEffects = value("EnableEffects", true).toBool();
-    EnableLastWord = value("EnableLastWord", true).toBool();
-    EnableBgMusic = value("EnableBgMusic", true).toBool();
-    UseLordBGM = value("UseLordBGM", true).toBool();
-    BGMVolume = value("BGMVolume", 1.0f).toFloat();
-    EffectVolume = value("EffectVolume", 1.0f).toFloat();
 
     int length = 8;
     int index = qrand() % length + 1;
@@ -135,7 +156,6 @@ void Settings::init()
 
     BackgroundImage = value("BackgroundImage", bgFilename).toString();
     TableBgImage = value("TableBgImage", "backdrop/default.jpg").toString();
-    UseLordBackdrop = value("UseLordBackdrop", true).toBool();
 
     EnableAutoSaveRecord = value("EnableAutoSaveRecord", false).toBool();
     NetworkOnly = value("NetworkOnly", false).toBool();
@@ -243,4 +263,9 @@ const QString &Settings::getQSSFileContent()
     }
 
     return qssFileContent;
+}
+
+Settings *Settings::ConfigInstance()
+{
+    return ::ConfigInstance();
 }

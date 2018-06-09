@@ -184,7 +184,6 @@ void ConfigDialog::saveConfig()
     Config.setValue("EnableEffects", enabled);
 
     enabled = ui->enableLastWordCheckBox->isChecked();
-    Config.EnableLastWord = enabled;
     Config.setValue("EnableLastWord", enabled);
 
     enabled = ui->enableBgMusicCheckBox->isChecked();
@@ -196,7 +195,6 @@ void ConfigDialog::saveConfig()
     Config.setValue("UseLordBGM", enabled);
 
     enabled = ui->UseLordBackdropBox->isChecked();
-    Config.UseLordBackdrop = enabled;
     Config.setValue("UseLordBackdrop", enabled);
 
     Config.setValue("NoIndicator", ui->noIndicatorCheckBox->isChecked());
