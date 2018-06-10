@@ -2,12 +2,12 @@
 #include "card.h"
 #include "engine.h"
 
-#include <QCoreApplication>
 #include <QDateTime>
 #include <QDebug>
 #include <QFile>
 #include <QFontDatabase>
 #include <QGlobalStatic>
+#include <QGuiApplication>
 #include <QJSEngine>
 #include <QJSValue>
 #include <QJsonDocument>
@@ -153,7 +153,7 @@ void Settings::loadSettingsFromConfigIni()
         }
 
         {
-            QVariant value(oldConfig.value(QStringLiteral("AppFont"), QApplication::font("QMainWindow")).value<QFont>());
+            QVariant value(oldConfig.value(QStringLiteral("AppFont"), QGuiApplication::font()).value<QFont>());
             setValue(QStringLiteral("AppFont"), value);
         }
 
@@ -576,10 +576,10 @@ void Settings::loadSettingsFromConfigIni()
             setValue(QStringLiteral("ServerName"), value);
         }
 
-        {
-            QVariant value(oldConfig.value(QStringLiteral("UIFont"), QApplication::font("QTextEdit")).value<QFont>());
-            setValue(QStringLiteral("UIFont"), value);
-        }
+        //        {
+        //            QVariant value(oldConfig.value(QStringLiteral("UIFont"), QGuiApplication::font("QTextEdit")).value<QFont>());
+        //            setValue(QStringLiteral("UIFont"), value);
+        //        }
 
         {
             QPoint p(oldConfig.value(QStringLiteral("WindowPosition"), QPoint(-8, -8)).toPoint());
@@ -714,6 +714,8 @@ void Settings::init()
     QString bgFilename = QString("%1%2%3").arg("backdrop/hall/gensoukyou_").arg(index).arg(".jpg");
 
     BackgroundImage = bgFilename; // value("BackgroundImage", bgFilename).toString();
+    setValue("BackgroundImage", BackgroundImage);
+
     TableBgImage = value("TableBgImage", "backdrop/default.jpg").toString();
 
     EnableAutoSaveRecord = value("EnableAutoSaveRecord", false).toBool();
