@@ -84,6 +84,9 @@ class Settings : public QSettings
     Q_PROPERTY(bool EnableSurprisingGenerals MEMBER EnableSurprisingGenerals)
     Q_PROPERTY(QStringList KnownSurprisingGenerals MEMBER KnownSurprisingGenerals)
 
+private:
+    void loadSettingsFromConfigIni();
+
 public:
     Q_INVOKABLE QJSValue jsValue(const QString &key, const QJSValue &defaultValue);
     Q_INVOKABLE void setJsValue(const QString &key, const QJSValue &value);
@@ -174,10 +177,9 @@ public:
     static const int S_MOVE_CARD_ANIMATION_DURATION;
     static const int S_JUDGE_ANIMATION_DURATION;
     static const int S_JUDGE_LONG_DELAY;
-
-    static Settings *ConfigInstance();
 };
 
-#define Config (*(Settings::ConfigInstance()))
+Settings *configInstance();
+#define Config (*(configInstance()))
 
 #endif

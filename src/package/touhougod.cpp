@@ -4656,7 +4656,7 @@ public:
     {
         Room *room = zuoci->getRoom();
         QStringList huashens = zuoci->getHiddenGenerals();
-        QStringList list = GetAvailableGenerals(zuoci);
+        QStringList list = GetAvailableGenerals(zuoci, init);   //do not remove parameter "init", which will be used for testing. 
         qShuffle(list);
         if (list.isEmpty())
             return;
@@ -4699,7 +4699,7 @@ public:
             zuoci->removeHiddenGenerals(deleteName);
     }
 
-    static QStringList GetAvailableGenerals(ServerPlayer *zuoci)
+    static QStringList GetAvailableGenerals(ServerPlayer *zuoci, bool init)
     {
         QSet<QString> all = Sanguosha->getLimitedGeneralNames().toSet();
         Room *room = zuoci->getRoom();
@@ -4735,12 +4735,13 @@ public:
                    << "youmu_god";
         return (all - banned - huashen_set - room_set).toList();
 
-        //only for test
+        Q_UNUSED(init);
+        //for test!!! do not remove
         /*QSet<QString> test;
         if (init)
-           test << "reimu_sp" << "shikieiki_god" << "marisa_slm";
+           test << "reimu_sp" << "youmu" << "aya_god";
         else
-           test << "renko" << "renko" << "renko";
+           test << "renko" << "renko" << "renko";//test hidden general changing
         return test.toList();*/
     }
 

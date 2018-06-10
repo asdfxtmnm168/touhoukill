@@ -1625,17 +1625,19 @@ QStringList ServerPlayer::checkTargetModSkillShow(const CardUseStruct &use)
     if (tarmods.isEmpty())
         return QStringList();
 
-    QSet<QString> showExtraTarget;
-    QSet<QString> showResidueNum;
-    QSet<QString> showDistanceLimit;
-    QSet<QString> showTargetFix;
-    QSet<QString> showTargetProhibit;
+    QSet<QString> showExtraTarget; QSet<QString> disShowExtraTarget;
+    QSet<QString> showResidueNum; QSet<QString> disShowResidueNum;
+    QSet<QString> showDistanceLimit; //QSet<QString> disShowDistanceLimit;
+    QSet<QString> showTargetFix;// only for skill tianqu
+    QSet<QString> showTargetProhibit;//only for skill tianqu
     //check extra target
     int num = use.to.length() - 1;
     if (num >= 1) {
         foreach (const TargetModSkill *tarmod, tarmods) {
             if (tarmod->getExtraTargetNum(use.from, use.card) >= num)
                 showExtraTarget << tarmod->objectName();
+            else
+                disShowExtraTarget << tarmod->objectName();
         }
     }
 
@@ -1647,6 +1649,8 @@ QStringList ServerPlayer::checkTargetModSkillShow(const CardUseStruct &use)
             foreach (const TargetModSkill *tarmod, tarmods) {
                 if (tarmod->getResidueNum(use.from, use.card) >= num)
                     showResidueNum << tarmod->objectName();
+                else
+                    disShowResidueNum << tarmod->objectName();
             }
         }
     }
@@ -1658,12 +1662,15 @@ QStringList ServerPlayer::checkTargetModSkillShow(const CardUseStruct &use)
         foreach (ServerPlayer *p, use.to) {
             if (use.from->distanceTo(p) > distance)
                 distance = use.from->distanceTo(p);
-        }
-        distance = distance - 1;
-        if (distance >= 1) {
-            foreach (const TargetModSkill *tarmod, tarmods) {
-                if (tarmod->getDistanceLimit(use.from, use.card) >= distance)
-                    showDistanceLimit << tarmod->objectName();
+        
+            distance = distance - 1;
+            if (distance >= 1) {
+                foreach (const TargetModSkill *tarmod, tarmods) {
+                    if (tarmod->getDistanceLimit(use.from, use.card) >= distance)
+                        showDistanceLimit << tarmod->objectName();
+                    //else
+                    //    disShowDistanceLimit << tarmod->objectName();
+                }
             }
         }
     }
@@ -1674,32 +1681,33 @@ QStringList ServerPlayer::checkTargetModSkillShow(const CardUseStruct &use)
 
     use.card->setFlags("IgnoreFailed");
     if (use.card->targetFixed() && !use.to.contains(use.from) && !use.card->isKindOf("AOE") && !use.card->isKindOf("GlobalEffect")) {
-        if (isHiddenSkill("tianqu"))
+        if (isHiddenSkill("tianqu") && Sanguosha->getCurrentCardUseReason() == CardUseStruct::CARD_USE_REASON_PLAY)
             showTargetFix << "tianqu";
     }
     use.card->setFlags("-IgnoreFailed");
 
     //check prohibit
     foreach (ServerPlayer *p, use.to) {
-        if (use.from->isProhibited(p, use.card)) {
+        if (use.from->isProhibited(p, use.card) && Sanguosha->getCurrentCardUseReason() == CardUseStruct::CARD_USE_REASON_PLAY) {
             showTargetProhibit << "tianqu";
             break;
         } else if (use.card->isKindOf("Peach")) {
-            if (!p->isWounded()) {
+            if (!p->isWounded() && Sanguosha->getCurrentCardUseReason() == CardUseStruct::CARD_USE_REASON_PLAY) {
                 showTargetProhibit << "tianqu";
                 break;
             }
-            if (p != use.from && (!p->hasLordSkill("yanhui") || p->getKingdom() != "zhan")) {
+            if (p != use.from && (!p->hasLordSkill("yanhui") || p->getKingdom() != "zhan") && Sanguosha->getCurrentCardUseReason() == CardUseStruct::CARD_USE_REASON_PLAY) {
                 showTargetProhibit << "tianqu";
                 break;
             }
-        } else if (use.card->isKindOf("DelayedTrick") && p->containsTrick(use.card->objectName())) {
+        } else if (use.card->isKindOf("DelayedTrick") && p->containsTrick(use.card->objectName()) && Sanguosha->getCurrentCardUseReason() == CardUseStruct::CARD_USE_REASON_PLAY) {
             showTargetProhibit << "tianqu";
             break;
         }
     }
-
+    
     QSet<QString> shows = showExtraTarget.operator|(showDistanceLimit).operator|(showResidueNum).operator|(showTargetFix).operator|(showTargetProhibit);
+    shows = shows.operator-(disShowExtraTarget).operator-(disShowResidueNum); //.operator-(disShowDistanceLimit)
     return shows.toList();
 }
 
