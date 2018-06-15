@@ -627,22 +627,22 @@ SkillCard *Engine::cloneSkillCard(const QString &name) const
         return NULL;
 }
 
-QString Engine::getVersionNumber() const
+QString Engine::getVersionNumber()
 {
     return "20180415";
 }
 
-QString Engine::getVersion() const
+QString Engine::getVersion()
 {
     return QString("%1:%2").arg(getVersionNumber()).arg(getMODName());
 }
 
-QString Engine::getVersionName() const
+QString Engine::getVersionName()
 {
     return "V0.8.9";
 }
 
-QUrl Engine::getUrl(const QString &str) const
+QUrl Engine::getUrl(const QString &str)
 {
     qDebug(QDir::currentPath().toLocal8Bit().constData());
     qDebug(str.toLocal8Bit().constData());
@@ -650,12 +650,12 @@ QUrl Engine::getUrl(const QString &str) const
     return QUrl::fromLocalFile(QDir().absoluteFilePath(str));
 }
 
-QVersionNumber Engine::getQVersionNumber() const
+QVersionNumber Engine::getQVersionNumber()
 {
     return QVersionNumber(0, 8, 9);
 }
 
-QString Engine::getMODName() const
+QString Engine::getMODName()
 {
     return "TouhouSatsu";
 }

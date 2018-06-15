@@ -36,6 +36,14 @@ public:
     Engine();
     ~Engine();
 
+    Q_INVOKABLE static QString getVersionNumber();
+    Q_INVOKABLE static QString getVersion();
+    Q_INVOKABLE static QString getVersionName();
+    Q_INVOKABLE static QString getMODName();
+    static QVersionNumber getQVersionNumber();
+
+    Q_INVOKABLE static QUrl getUrl(const QString &str);
+
     void addTranslationEntry(const char *key, const char *value);
     QString translate(const QString &to_translate) const;
     lua_State *getLuaState() const;
@@ -48,12 +56,7 @@ public:
     Card *cloneCard(const Card *card) const;
     Card *cloneCard(const QString &name, Card::Suit suit = Card::SuitToBeDecided, int number = -1, const QStringList &flags = QStringList()) const;
     SkillCard *cloneSkillCard(const QString &name) const;
-    Q_INVOKABLE QString getVersionNumber() const;
-    Q_INVOKABLE QString getVersion() const;
-    Q_INVOKABLE QString getVersionName() const;
-    Q_INVOKABLE QUrl getUrl(const QString &str) const;
-    QVersionNumber getQVersionNumber() const;
-    QString getMODName() const;
+
     QStringList getExtensions() const;
     QStringList getKingdoms() const;
     QColor getKingdomColor(const QString &kingdom) const;
