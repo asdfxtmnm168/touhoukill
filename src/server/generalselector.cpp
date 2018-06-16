@@ -12,7 +12,7 @@ GeneralSelector::GeneralSelector(Room *room)
     int error = luaL_dofile(L, "lua/general_select.lua");
     if (error) {
         QString error_msg = lua_tostring(L, -1);
-        qDebug("Lua script error: %s", error_msg);
+        qDebug("Lua script error: %s", error_msg.toLocal8Bit().constData());
         exit(1);
     } else
         initialize();

@@ -74,7 +74,7 @@ void DoLuaScript(lua_State *L, const char *script)
     int error = luaL_dofile(L, script);
     if (error) {
         QString error_msg = lua_tostring(L, -1);
-        qDebug("Lua script error: %s", error_msg);
+        qDebug("Lua script error: %s", error_msg.toLocal8Bit().constData());
         exit(1);
     }
 }
