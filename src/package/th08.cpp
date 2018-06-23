@@ -1,12 +1,11 @@
 #include "th08.h"
-#include "th10.h"
-
 #include "client.h"
 #include "engine.h"
 #include "general.h"
 #include "maneuvering.h"
 #include "skill.h"
 #include "standard.h"
+#include "th10.h"
 
 class Yongheng : public TriggerSkill
 {
@@ -758,7 +757,7 @@ public:
         foreach (ServerPlayer *p, room->findPlayersBySkillName(objectName())) {
             if (use.from == p)
                 continue;
-            foreach (ServerPlayer *t, room->getOtherPlayers(use.from)) {
+            foreach (ServerPlayer *t, room->getAlivePlayers()) {
                 if (use.to.contains(t))
                     continue;
                 if (!use.from->isProhibited(t, use.card) && use.card->targetFilter(QList<const Player *>(), t, use.from)) {
@@ -782,7 +781,7 @@ public:
 
         room->doAnimate(QSanProtocol::S_ANIMATE_INDICATE, invoke->invoker->objectName(), use.from->objectName());
         QList<ServerPlayer *> victims;
-        foreach (ServerPlayer *t, room->getOtherPlayers(use.from)) {
+        foreach (ServerPlayer *t, room->getAlivePlayers()) {
             if (use.to.contains(t))
                 continue;
             if (!use.from->isProhibited(t, use.card) && use.card->targetFilter(QList<const Player *>(), t, use.from))

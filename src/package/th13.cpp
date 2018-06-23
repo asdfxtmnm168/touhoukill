@@ -1,5 +1,4 @@
 #include "th13.h"
-
 #include "client.h"
 #include "engine.h"
 #include "general.h"
@@ -858,7 +857,7 @@ public:
         CardAskedStruct s = data.value<CardAskedStruct>();
         if (matchAvaliablePattern("jink", s.pattern)) {
             ServerPlayer *current = room->getCurrent();
-            if (!s.player->hasSkill(this) || !current && !current->isAlive() || (current->getWeapon() != NULL))
+            if (!s.player->hasSkill(this) || !current || !current->isAlive() || (current->getWeapon() != NULL))
                 return QList<SkillInvokeDetail>();
 
             Jink *jink = new Jink(Card::NoSuit, 0);
