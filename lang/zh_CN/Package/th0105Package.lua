@@ -163,9 +163,9 @@ return {
 
 --************************************************
 	--pc98007 幻月/梦月 势力：旧 3血
-	["gengetsumugetsu"] = "梦月 & 幻月" ,
+	["gengetsumugetsu"] = "梦月 ＆ 幻月" ,
 	["&gengetsumugetsu"] = "梦月幻月" ,
-	["#gengetsumugetsu"] = "女仆 & 恶魔" ,
+	["#gengetsumugetsu"] = "女仆 ＆ 恶魔" ,
 	["designer:gengetsumugetsu"] = "辰焰天明",
 
 	["illustrator:gengetsumugetsu"] = " tengu ",
@@ -179,7 +179,7 @@ return {
 	
 	["xuxiang"] = "虚像",
 	[":xuxiang"] = "当其他角色使用【杀】对目标角色造成伤害时，你可与其拼点：当你赢后，若拼点牌中有【闪】，你可令伤害值+1。若拼点牌中有【杀】，你可令伤害值-1。<font color=\"green\"><b>每阶段限一次。</b></font>",
-	["xuxiang:target"]= "<font color=\"#FF8000\"><b>%src </b></font> 使用【%arg】对  %dest 造成了 %arg2 点伤害。 你可发动“梦幻”与 <font color=\"#FF8000\"><b>%src </b></font> 拼点。",
+	["xuxiang:target"]= "<font color=\"#FF8000\"><b>%src </b></font> 使用【%arg】对  %dest 造成了 %arg2 点伤害。 你可发动“虚像”与 <font color=\"#FF8000\"><b>%src </b></font> 拼点。",
 	["#Xuxiang_minus"]= "%from 受到的伤害因 %arg效果 减少 %arg2 点。",
 	["#Xuxiang_plus"]= "%from 受到的伤害因 %arg效果 增加 %arg2 点。",
 	["#xuxiang_plus"] = "虚像加伤",
@@ -319,7 +319,7 @@ return {
 	["@qiren"] = "你发动“奇刃”对 %src 使用【借刀杀人】，请选择 %src 出杀的目标",
 	
 --************************************************	
-	["yukimai"] = "雪 & 舞",
+	["yukimai"] = "雪 ＆ 舞",
 	["&yukimai"] = "雪舞",
 	["#yukimai"] = "黑白双子" ,
 	["designer:yukimai"] = "dawda",

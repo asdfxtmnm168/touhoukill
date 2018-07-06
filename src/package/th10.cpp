@@ -1197,7 +1197,7 @@ public:
               << "@zhengti"
               << "@xinyang"
               << "@ice"
-              << "@stars";
+              << "@star";
         QStringList disablePiles;
         disablePiles << "wooden_ox";
         foreach (ServerPlayer *p, room->getAlivePlayers()) {
