@@ -118,7 +118,7 @@ public:
 
 //    QButtonGroup *group;
 
-//    static const QStringList ShenbaoDialog::equipViewAsSkills;
+//    static const QStringList equipViewAsSkills;
 
 //signals:
 //    void onButtonClick();

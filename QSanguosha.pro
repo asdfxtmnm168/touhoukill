@@ -288,6 +288,7 @@ winrt{
 macx{
     DEFINES += MAC
     LIBS += -L"$$_PRO_FILE_PWD_/lib/mac/lib"
+    DEFINES += LUA_USE_MACOSX
 }
 ios{
     DEFINES += IOS
@@ -314,6 +315,8 @@ linux{
             LIBS += -L"$$_PRO_FILE_PWD_/lib/linux/x64"
             QMAKE_LFLAGS += -Wl,--rpath=lib/linux/x64
         }
+        DEFINES += LUA_USE_LINUX
+        LIBS += -ldl -lreadline
     }
 }
 
