@@ -1913,25 +1913,9 @@ const Card *HuaxiangCard::validate(CardUseStruct &card_use) const
 const Card *HuaxiangCard::validateInResponse(ServerPlayer *user) const
 {
     Room *room = user->getRoom();
-
-    QString to_use;
-    if (user_string == "peach+analeptic") {
-        QStringList use_list;
-        Card *peach = Sanguosha->cloneCard("peach");
-        DELETE_OVER_SCOPE(Card, peach)
-        if (!user->isCardLimited(peach, Card::MethodResponse, true) && user->getMaxHp() <= 2)
-            use_list << "peach";
-        Card *ana = Sanguosha->cloneCard("analeptic");
-        DELETE_OVER_SCOPE(Card, ana)
-        if (!Config.BanPackages.contains("maneuvering") && !user->isCardLimited(ana, Card::MethodResponse, true))
-            use_list << "analeptic";
-        to_use = room->askForChoice(user, "huaxiang_skill_saveself", use_list.join("+"));
-    } else
-        to_use = user_string;
-
     room->touhouLogmessage("#InvokeSkill", user, "huaxiang");
     user->addToPile("rainbow", subcards.first());
-    Card *use_card = Sanguosha->cloneCard(to_use, Card::NoSuit, 0);
+    Card *use_card = Sanguosha->cloneCard(user_string, Card::NoSuit, 0);
     use_card->setSkillName("huaxiang");
     use_card->deleteLater();
 
@@ -1956,23 +1940,21 @@ public:
         else
             method = Card::MethodUse;
 
-        QStringList validPatterns;
-        validPatterns << "slash"
-                      << "analeptic";
-        if (Self->getMaxHp() <= 3)
-            validPatterns << "jink";
-        if (Self->getMaxHp() <= 2)
-            validPatterns << "peach";
-        if (Self->getMaxHp() <= 1)
-            validPatterns << "nullification";
+        QList<const Card *> cards = Sanguosha->findChildren<const Card *>();
+        const Skill *skill = Sanguosha->getSkill("huaxiang");
         QStringList checkedPatterns;
-        foreach (QString str, validPatterns) {
-            const Skill *skill = Sanguosha->getSkill("huaxiang");
-            if (skill->matchAvaliablePattern(str, pattern)) {
-                Card *card = Sanguosha->cloneCard(str);
-                DELETE_OVER_SCOPE(Card, card)
-                if (!Self->isCardLimited(card, method))
-                    checkedPatterns << str;
+        foreach (const Card *card, cards) {
+            if ((card->isKindOf("BasicCard") || card->isKindOf("Nullification")) && !ServerInfo.Extensions.contains("!" + card->getPackage())) {
+                QString name = card->objectName();
+                if (!checkedPatterns.contains(name) && skill->matchAvaliablePattern(name, pattern) && !Self->isCardLimited(card, method)) {
+                    if (name.contains("jink") && Self->getMaxHp() > 3)
+                        continue;
+                    else if (name.contains("peach") && Self->getMaxHp() > 2)
+                        continue;
+                    else if (name.contains("nullification") && Self->getMaxHp() > 1)
+                        continue;
+                    checkedPatterns << name;
+                }
             }
         }
         return checkedPatterns;
@@ -1989,7 +1971,9 @@ public:
         if (player->getMaxHp() <= 2) {
             Card *card = Sanguosha->cloneCard("peach", Card::NoSuit, 0);
             DELETE_OVER_SCOPE(Card, card)
-            return card->isAvailable(player);
+            Card *card1 = Sanguosha->cloneCard("super_peach", Card::NoSuit, 0);
+            DELETE_OVER_SCOPE(Card, card1)
+            return card->isAvailable(player) || card1->isAvailable(player);
         }
         return false;
     }
@@ -2027,21 +2011,10 @@ public:
         if (cards.length() != 1)
             return NULL;
 
-        if (Sanguosha->currentRoomState()->getCurrentCardUseReason() == CardUseStruct::CARD_USE_REASON_RESPONSE
-            || Sanguosha->currentRoomState()->getCurrentCardUseReason() == CardUseStruct::CARD_USE_REASON_RESPONSE_USE) {
-            QString pattern = Sanguosha->currentRoomState()->getCurrentCardUsePattern();
-
-            QStringList checkedPatterns = responsePatterns();
-            if (checkedPatterns.length() > 1 || checkedPatterns.contains("slash")) {
-                QString name = Self->tag.value("huaxiang", QString()).toString();
-                if (name != NULL)
-                    pattern = name;
-                else
-                    return NULL;
-            } else
-                pattern = checkedPatterns.first();
+        QStringList checkedPatterns = responsePatterns();
+        if (checkedPatterns.length() == 1) {
             HuaxiangCard *card = new HuaxiangCard;
-            card->setUserString(pattern);
+            card->setUserString(checkedPatterns.first());
             card->addSubcards(cards);
             return card;
         }
@@ -2798,7 +2771,7 @@ public:
             damage.to->drawCards(x);
             room->loseHp(damage.to, x);
         } else {
-            int discardNum = damage.to->getCards("hes").length() > x ? damage.to->getCards("he").length() - x : 0;
+            int discardNum = qMax(damage.to->getCards("hes").length() - x, 0);
             if (discardNum > 0)
                 room->askForDiscard(damage.to, objectName(), discardNum, discardNum, false, true);
         }
@@ -3975,11 +3948,6 @@ public:
     static QStringList responsePatterns()
     {
         QString pattern = Sanguosha->currentRoomState()->getCurrentCardUsePattern();
-        Card::HandlingMethod method;
-        if (Sanguosha->currentRoomState()->getCurrentCardUseReason() == CardUseStruct::CARD_USE_REASON_RESPONSE)
-            method = Card::MethodResponse;
-        else
-            method = Card::MethodUse;
 
         QStringList validPatterns;
         QList<const Card *> cards = Sanguosha->findChildren<const Card *>();
@@ -5289,11 +5257,23 @@ public:
             room->touhouLogmessage("$CancelTarget", use.from, use.card->objectName(), invoke->targets);
         } else {
             invoke->invoker->loseMark("@star");
-            QString choice = "1";
+            QString choice = "first";
             if (use.card->isKindOf("FireAttack") || use.card->isKindOf("Duel") || use.card->isKindOf("SavageAssault") || use.card->isKindOf("ArcheryAttack")
                 || use.card->isKindOf("AwaitExhausted")) {
-                choice = room->askForChoice(invoke->invoker, objectName(), "1+2");
-                if (choice == "2")
+                QString choices = QString("%1_first+%2_second").arg(use.card->objectName()).arg(use.card->objectName());
+                choice = room->askForChoice(invoke->invoker, objectName(), choices);
+                if (choice == "second")
+                    room->setCardFlag(use.card, "mopao2");
+                else
+                    room->setCardFlag(use.card, "mopao");
+            } else if (use.card->isKindOf("Slash")) {
+                QString choice = "second";
+                if (use.card->isKindOf("LightSlash") || use.card->isKindOf("PowerSlash")) {
+                    QString choices = QString("%1_first+%2_second").arg(use.card->objectName()).arg(use.card->objectName());
+                    choice = room->askForChoice(invoke->invoker, objectName(), choices);
+                }
+
+                if (choice.endsWith("second"))
                     room->setCardFlag(use.card, "mopao2");
                 else
                     room->setCardFlag(use.card, "mopao");
@@ -5304,7 +5284,10 @@ public:
             log.type = "#Chongneng";
             log.from = invoke->invoker;
             log.arg = use.card->objectName();
-            log.arg2 = choice;
+            if (choice.endsWith("second"))
+                log.arg2 = "2";
+            else
+                log.arg2 = "1";
             room->sendLog(log);
         }
 

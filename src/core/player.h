@@ -263,6 +263,7 @@ public:
 
     void setChained(bool chained);
     bool isChained() const;
+    bool isDebuffStatus() const;
 
     void setRemoved(bool removed);
     bool isRemoved() const;
@@ -285,6 +286,7 @@ public:
     bool hasUsed(const QString &card_class) const;
     int usedTimes(const QString &card_class) const;
     int getSlashCount() const;
+    int getAnalepticCount() const;
 
     bool hasEquipSkill(const QString &skill_name) const;
     QSet<const TriggerSkill *> getTriggerSkills() const;

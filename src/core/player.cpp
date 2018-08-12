@@ -1244,6 +1244,11 @@ bool Player::isChained() const
     return chained;
 }
 
+bool Player::isDebuffStatus() const
+{
+    return chained || (!shown_handcards.isEmpty()) || (!broken_equips.isEmpty());
+}
+
 void Player::setChained(bool chained)
 {
     if (this->chained != chained) {
@@ -1412,7 +1417,13 @@ void Player::addHistory(const QString &name, int times)
 
 int Player::getSlashCount() const
 {
-    return history.value("Slash", 0) + history.value("ThunderSlash", 0) + history.value("FireSlash", 0) + history.value("IceSlash", 0);
+    return history.value("Slash", 0) + history.value("ThunderSlash", 0) + history.value("FireSlash", 0) 
+        + history.value("PowerSlash", 0) + history.value("IronSlash", 0) + history.value("LightSlash", 0);
+}
+
+int Player::getAnalepticCount() const
+{
+    return history.value("Analeptic", 0) + history.value("MagicAnaleptic", 0);
 }
 
 void Player::clearHistory()

@@ -1437,6 +1437,9 @@ void ServerPlayer::addToShownHandCards(QList<int> card_ids)
 
 void ServerPlayer::removeShownHandCards(QList<int> card_ids, bool sendLog, bool moveFromHand)
 {
+    if (card_ids.isEmpty())
+        return;
+
     foreach (int id, card_ids)
         shown_handcards.removeOne(id);
 
@@ -1493,6 +1496,9 @@ void ServerPlayer::addBrokenEquips(QList<int> card_ids)
 
 void ServerPlayer::removeBrokenEquips(QList<int> card_ids, bool sendLog, bool moveFromEquip)
 {
+    if (card_ids.isEmpty())
+        return;
+
     foreach (int id, card_ids)
         broken_equips.removeOne(id);
 
@@ -1651,7 +1657,12 @@ QStringList ServerPlayer::checkTargetModSkillShow(const CardUseStruct &use)
     //check ResidueNum
     //only consider the folloing cards
     if (use.card->isKindOf("Slash") || use.card->isKindOf("Analeptic")) {
-        num = use.from->usedTimes(use.card->getClassName()) - 1;
+        num = 0;
+        if (use.card->isKindOf("Slash"))
+            num = use.from->getSlashCount() - 1;
+        else if (use.card->isKindOf("Analeptic"))
+            num = use.from->getAnalepticCount() - 1;
+
         if (num >= 1) {
             foreach (const TargetModSkill *tarmod, tarmods) {
                 if (tarmod->getResidueNum(use.from, use.card) >= num)

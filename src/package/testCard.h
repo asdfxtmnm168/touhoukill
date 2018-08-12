@@ -2,6 +2,49 @@
 #define _TESTCARD_H
 
 #include "standard.h"
+#include "maneuvering.h"
+
+class DebuffSlash : public Slash
+{
+    Q_OBJECT
+
+public:
+    DebuffSlash(Suit suit, int number);
+    virtual bool match(const QString &pattern) const;
+};
+
+class IronSlash : public DebuffSlash
+{
+    Q_OBJECT
+
+public:
+    Q_INVOKABLE IronSlash(Card::Suit suit, int number);
+
+    static void debuffEffect(const SlashEffectStruct &effect);
+};
+
+class LightSlash : public DebuffSlash
+{
+    Q_OBJECT
+
+public:
+    Q_INVOKABLE LightSlash(Card::Suit suit, int number);
+
+    static void debuffEffect(const SlashEffectStruct &effect);
+};
+
+class PowerSlash : public DebuffSlash
+{
+    Q_OBJECT
+
+public:
+    Q_INVOKABLE PowerSlash(Card::Suit suit, int number);
+
+    static void debuffEffect(const SlashEffectStruct &effect);
+
+};
+
+
 
 class NatureJink : public Jink
 {
@@ -12,13 +55,53 @@ public:
     virtual bool match(const QString &pattern) const;
 };
 
-class AdvancedJink : public NatureJink
+class ChainJink : public NatureJink
 {
     Q_OBJECT
 
 public:
-    Q_INVOKABLE AdvancedJink(Card::Suit suit, int number);
+    Q_INVOKABLE ChainJink(Card::Suit suit, int number);
+
+    virtual void onEffect(const CardEffectStruct &effect) const;
 };
+
+
+class LightJink : public NatureJink
+{
+    Q_OBJECT
+
+public:
+    Q_INVOKABLE LightJink(Card::Suit suit, int number);
+
+    virtual void onEffect(const CardEffectStruct &effect) const;
+};
+
+
+class MagicAnaleptic : public Analeptic
+{
+    Q_OBJECT
+
+public:
+    Q_INVOKABLE MagicAnaleptic(Card::Suit suit, int number);
+    virtual bool match(const QString &pattern) const;
+    virtual void onEffect(const CardEffectStruct &effect) const;
+};
+
+
+class SuperPeach : public Peach
+{
+    Q_OBJECT
+
+public:
+    Q_INVOKABLE SuperPeach(Card::Suit suit, int number);
+    virtual bool match(const QString &pattern) const;
+
+    virtual void onEffect(const CardEffectStruct &effect) const;
+    virtual bool targetFixed() const;
+    virtual bool targetFilter(const QList<const Player *> &targets, const Player *to_select, const Player *Self) const;
+    virtual bool isAvailable(const Player *player) const;
+};
+
 
 class Camera : public Weapon
 {

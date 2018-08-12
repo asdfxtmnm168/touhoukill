@@ -742,14 +742,7 @@ function SmartAI:useCardSlash(card, use)
 	if #targets == 0 and #forbidden > 0 then targets = forbidden end
 
 	if #targets == 1 and card:getSkillName() == "lihuo" and not targets[1]:hasArmorEffect("Vine") then return end
-	--[[if self.player:hasSkill("guaili")  then
-		for _,c in pairs (self:getCards("Slash")) do
-			if c:isRed() and not card:isRed() then
-				use.card = c
-				break
-			end
-		end
-	end]]
+
 
 
 	for _, target in ipairs(targets) do
@@ -850,14 +843,6 @@ function SmartAI:useCardSlash(card, use)
 					self.room:setCardFlag(sgs.Sanguosha:getCard(id), "-AIGlobal_SearchForAnaleptic")
 				end
 
-
-				if self.player:hasSkill("jilve") and self.player:getMark("@bear") > 0 and not self.player:hasFlag("JilveWansha") and target:getHp() == 1 and not self.room:getCurrent():hasSkill("wansha")
-					and (target:isKongcheng() or getCardsNum("Jink", target, self.player) < 1 or sgs.card_lack[target:objectName()]["Jink"] == 1) then
-					use.card = sgs.Card_Parse("@JilveCard=.")
-					sgs.ai_skill_choice.jilve = "wansha"
-					if use.to then use.to = sgs.SPlayerList() end
-					return
-				end
 			end
 			if not use.to or self.slash_targets <= use.to:length() then return end
 		end
@@ -1318,7 +1303,7 @@ end
 --【斗酒】
 function SmartAI:useCardPeach(card, use)
 	--对主公发动宴会使用桃
-	if (self.player:getKingdom() == "zhan") then
+	--[[if (self.player:getKingdom() == "zhan") then
 		local yanhuiTargets = {}
 		for _,p in sgs.qlist(self.room:getOtherPlayers(self.player)) do
 			if p:hasLordSkill("yanhui") and p:isAlive() and p:isWounded() and p:getHp()<=self.player:getHp() then
@@ -1335,7 +1320,7 @@ function SmartAI:useCardPeach(card, use)
 				if use.to:length() >= 1 then return end
 			end
 		end
-	end
+	end]]
 
 
 	local mustusepeach = false
@@ -2709,6 +2694,15 @@ end
 --东方杀相关
 --主雷米 二号位忠挂电  三号位忠给拆了的莫名其妙 修改胡乱拆闪电的情况
 function SmartAI:useCardSnatchOrDismantlement(card, use)
+	--[[if not use.isDummy then
+		local analeptic = self:searchForMagicAnaleptic(use, target, card)
+		if analeptic and self:shouldUseMagicAnaleptic(use.card) and analeptic:getEffectiveId() ~= card:getEffectiveId() then
+			use.card = analeptic
+			if use.to then use.to = sgs.SPlayerList() end
+			return
+		end
+	end]]
+	
 	local isJixi = card:getSkillName() == "jixi"
 	local isDiscard = (not card:isKindOf("Snatch"))
 	local name = card:objectName()
@@ -4022,7 +4016,7 @@ sgs.ai_skill_askforag.amazing_grace = function(self, card_ids)
 				if enemy:hasArmorEffect("Vine") and FFFslash and self:slashIsEffective(FFFslash, enemy) and
 					self.player:getCardCount(true) >= 3 and self.player:canSlash(enemy, FFFslash, true, range_fix) then
 					return axe
-				elseif self:getCardsNum("Analeptic") > 0 and self.player:getCardCount(true) >= 4 and
+				elseif self:getCardsNum("Analeptic", "hs", true, "MagicAnaleptic") > 0 and self.player:getCardCount(true) >= 4 and
 					self:slashIsEffective(slash, enemy) and self.player:canSlash(enemy, slash, true, range_fix) then
 					return axe
 				end

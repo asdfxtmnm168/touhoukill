@@ -72,7 +72,8 @@ bool Analeptic::IsAvailable(const Player *player, const Card *analeptic)
     if (player->isCardLimited(THIS_ANALEPTIC, Card::MethodUse) || player->isProhibited(player, THIS_ANALEPTIC))
         return false;
 
-    return player->usedTimes("Analeptic") <= Sanguosha->correctCardTarget(TargetModSkill::Residue, player, THIS_ANALEPTIC);
+    //return player->usedTimes("Analeptic") <= Sanguosha->correctCardTarget(TargetModSkill::Residue, player, THIS_ANALEPTIC);
+    return player->getAnalepticCount() <= Sanguosha->correctCardTarget(TargetModSkill::Residue, player, THIS_ANALEPTIC);
 #undef THIS_ANALEPTIC
 }
 
@@ -88,6 +89,22 @@ void Analeptic::onUse(Room *room, const CardUseStruct &card_use) const
         use.to << use.from;
     BasicCard::onUse(room, use);
 }
+
+
+/*PowerAnaleptic::PowerAnaleptic(Card::Suit suit, int number)
+    : Analeptic(suit, number)
+{
+    setObjectName("power_analeptic");
+}
+
+bool PowerAnaleptic::match(const QString &pattern) const
+{
+    QStringList patterns = pattern.split("+");
+    if (patterns.contains("analeptic"))
+        return true;
+    else
+        return Analeptic::match(pattern);
+}*/
 
 void Analeptic::onEffect(const CardEffectStruct &effect) const
 {
